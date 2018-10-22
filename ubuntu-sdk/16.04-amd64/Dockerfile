@@ -48,14 +48,22 @@ RUN apt-get -y --no-install-recommends dist-upgrade && \
         git \
         libicu-dev \
         qtfeedback5-dev \
-        qtsystems5-dev && \
+        qtsystems5-dev \
+        qml-module-io-thp-pyotherside \
+        morph-webapp-container \
+        && \
     apt-get clean
+
+# Install cordova
+RUN wget -qO- https://deb.nodesource.com/setup_10.x | bash - && \
+    apt-get install -y nodejs && \
+    npm install -g cordova@7.0.0
 
 # Install go
 RUN wget https://storage.googleapis.com/golang/go1.6.linux-amd64.tar.gz && \
     tar -xvf go1.6.linux-amd64.tar.gz && \
     mv go /usr/local && \
-    ln -s /usr/include/arm-linux-gnueabihf/qt5/QtCore/5.4.1/QtCore /usr/include/ && \
+    ln -s /usr/include/arm-linux-gnueabihf/qt5/QtCore/5.9.5/QtCore /usr/include/ && \
     rm go1.6.linux-amd64.tar.gz
 
 ENV CGO_ENABLED=1
