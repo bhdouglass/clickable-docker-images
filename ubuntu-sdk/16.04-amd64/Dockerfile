@@ -63,7 +63,10 @@ RUN wget -qO- https://deb.nodesource.com/setup_10.x | bash - && \
 RUN wget https://storage.googleapis.com/golang/go1.6.linux-amd64.tar.gz && \
     tar -xvf go1.6.linux-amd64.tar.gz && \
     mv go /usr/local && \
-    ln -s /usr/include/arm-linux-gnueabihf/qt5/QtCore/5.9.5/QtCore /usr/include/ && \
+    ln -s /usr/include/x86_64-linux-gnu/qt5/QtCore/5.9.5/QtCore /usr/include/ && \
     rm go1.6.linux-amd64.tar.gz
+
+# TODO this probably needs to be fixed upstream
+ADD ubuntu-click-tools.prf /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/ubuntu-click-tools.prf
 
 ENV CGO_ENABLED=1
