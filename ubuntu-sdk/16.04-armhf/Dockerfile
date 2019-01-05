@@ -6,72 +6,67 @@ RUN echo 'Acquire::CompressionTypes::Order:: "gz";' > /etc/apt/apt.conf.d/99comp
     echo set debconf/frontend Noninteractive | debconf-communicate && \
     echo set debconf/priority critical | debconf-communicate
 
+# Add ubport repos
 RUN echo "deb [arch=amd64] http://archive.ubuntu.com/ubuntu xenial main resticted multiverse universe" > /etc/apt/sources.list && \
     echo "deb [arch=amd64] http://archive.ubuntu.com/ubuntu xenial-updates main resticted multiverse universe" >> /etc/apt/sources.list && \
     echo "deb [arch=amd64] http://archive.ubuntu.com/ubuntu xenial-security main resticted multiverse universe" >> /etc/apt/sources.list && \
     echo "deb [arch=armhf] http://ports.ubuntu.com/ubuntu-ports xenial main resticted multiverse universe" >> /etc/apt/sources.list && \
     echo "deb [arch=armhf] http://ports.ubuntu.com/ubuntu-ports xenial-updates main resticted multiverse universe" >> /etc/apt/sources.list && \
-    echo "deb [arch=armhf] http://ports.ubuntu.com/ubuntu-ports xenial-security main restricted multiverse universe" >> /etc/apt/sources.list
-
-RUN dpkg --add-architecture armhf && apt-get update
-
-RUN apt-get -y --no-install-recommends install gnupg ubuntu-keyring software-properties-common wget -f
-
-RUN echo "deb http://repo.ubports.com xenial main" >> /etc/apt/sources.list && \
+    echo "deb [arch=armhf] http://ports.ubuntu.com/ubuntu-ports xenial-security main restricted multiverse universe" >> /etc/apt/sources.list && \
+    # Allow installing armhf packages
+    dpkg --add-architecture armhf && \
+    # Add other repos
+    apt-get update && \
+    apt-get -y -f --no-install-recommends install gnupg ubuntu-keyring software-properties-common wget && \
+    echo "deb http://repo.ubports.com xenial main" >> /etc/apt/sources.list && \
     wget -qO - http://repo.ubports.com/keyring.gpg | apt-key add - && \
+    wget -qO- https://deb.nodesource.com/setup_10.x | bash - && \
     add-apt-repository ppa:bhdouglass/clickable && \
+    # Install go (Doing this here so wget can be removed when we are done with it)
+    wget https://storage.googleapis.com/golang/go1.6.linux-amd64.tar.gz && \
+    tar -xvf go1.6.linux-amd64.tar.gz && \
+    mv go /usr/local && \
+    ln -s /usr/include/arm-linux-gnueabihf/qt5/QtCore/5.9.5/QtCore /usr/include/ && \
+    rm go1.6.linux-amd64.tar.gz && \
+    # Cleanup
+    apt-get -y remove software-properties-common wget && \
+    apt-get -y autoremove && \
     apt-get clean && \
-    rm -rf /var/lib/apt/lists/* && \
-    apt-get update
+    rm -rf /var/lib/apt/lists/*
 
-RUN apt-get -y --no-install-recommends dist-upgrade && \
+# Install dependencies
+RUN apt-get update && \
+    apt-get -y --no-install-recommends dist-upgrade && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/* && \
     apt-get update && \
     apt-get -y --no-install-recommends install \
-        apt-utils \
         build-essential \
         cmake \
+        git \
         dpkg-cross \
-        fakeroot \
-        libc-dev:armhf \
-        isc-dhcp-client \
-        net-tools \
-        ifupdown \
         g++-arm-linux-gnueabihf \
+        crossbuild-essential-armhf \
+        libc-dev:armhf \
+        libicu-dev:armhf \
+        nodejs \
         pkg-config-arm-linux-gnueabihf \
-        ubuntu-sdk-libs:armhf \
-        ubuntu-sdk-libs-dev:armhf \
-        ubuntu-sdk-libs-tools \
-        oxideqt-codecs-extra \
-        language-pack-en \
-        click \
-        qtquickcontrols2-5-dev:armhf \
         qtbase5-private-dev:armhf \
         qtdeclarative5-private-dev:armhf \
-        libqt5opengl5-dev:armhf \
-        mercurial \
-        crossbuild-essential-armhf \
-        git \
-        libicu-dev:armhf \
         qtfeedback5-dev:armhf \
-        qtsystems5-dev:armhf \
-        click-reviewers-tools \
         qtpositioning5-dev:armhf \
-        qtwebengine5-dev:armhf && \
-    apt-get clean
-
-# Install cordova
-RUN wget -qO- https://deb.nodesource.com/setup_10.x | bash - && \
-    apt-get install -y nodejs && \
-    npm install -g cordova@7.0.0
-
-# Install go
-RUN wget https://storage.googleapis.com/golang/go1.6.linux-amd64.tar.gz && \
-    tar -xvf go1.6.linux-amd64.tar.gz && \
-    mv go /usr/local && \
-    ln -s /usr/include/arm-linux-gnueabihf/qt5/QtCore/5.9.5/QtCore /usr/include/ && \
-    rm go1.6.linux-amd64.tar.gz
+        qtquickcontrols2-5-dev:armhf \
+        qtsystems5-dev:armhf \
+        qtwebengine5-dev:armhf \
+        libqt5opengl5-dev:armhf \
+        click \
+        click-reviewers-tools \
+        ubuntu-sdk-libs-dev:armhf \
+        ubuntu-sdk-libs-tools \
+        ubuntu-sdk-libs:armhf && \
+    npm install -g cordova@7.0.0 && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
 
 # TODO see if there is a better location for this
 ADD qt.conf /usr/bin/qt.conf
@@ -106,10 +101,9 @@ ENV DEB_BUILD_ARCH=amd64 \
     DEB_TARGET_GNU_CPU=arm \
     DEB_TARGET_GNU_SYSTEM=linux-gnueabihf \
     DEB_TARGET_GNU_TYPE=arm-linux-gnueabihf \
-    DEB_TARGET_MULTIARCH=arm-linux-gnueabihf
-
-# env's for go
-ENV GOOS=linux \
+    DEB_TARGET_MULTIARCH=arm-linux-gnueabihf \
+    # Env vars for Go cross compile
+    GOOS=linux \
     GOARCH=arm \
     GOARM=7 \
     CGO_ENABLED=1 \
