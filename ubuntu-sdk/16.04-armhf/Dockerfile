@@ -82,9 +82,11 @@ RUN rustup target add armv7-unknown-linux-gnueabihf
 # Add nightly toolchain and target
 #RUN rustup toolchain add nightly-x86_64-unknown-linux-gnu
 #RUN rustup target add armv7-unknown-linux-gnueabihf --toolchain nightly
-# Allow the default clickable user to update the registry
+# Allow the default clickable user to update the registry as well as the git folder
 RUN mkdir -p /opt/rust/registry
 RUN chown -R 1000 /opt/rust/registry
+RUN mkdir -p /opt/rust/git
+RUN chown -R 1000 /opt/rust/git
 
 # Symlinks to make Rust and Go bindings find Qt includes
 RUN ln -s /usr/include/arm-linux-gnueabihf/qt5/QtCore/ /usr/include/QtCore
