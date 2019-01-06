@@ -68,8 +68,45 @@ RUN apt-get update && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
+# Install Rust
+RUN mkdir -p opt/rust
+ENV CARGO_HOME=/opt/rust
+ENV RUSTUP_HOME=/opt/rust
+RUN apt-get update && \
+    apt-get install wget && \
+    wget https://sh.rustup.rs -O rustup.sh && \
+    bash rustup.sh -y --default-toolchain '1.31.1' && \
+    rm rustup.sh
+ENV PATH=/opt/rust/bin:$PATH
+RUN rustup target add armv7-unknown-linux-gnueabihf
+# Add nightly toolchain and target
+#RUN rustup toolchain add nightly-x86_64-unknown-linux-gnu
+#RUN rustup target add armv7-unknown-linux-gnueabihf --toolchain nightly
+# Allow the default clickable user to update the registry
+RUN mkdir -p /opt/rust/registry
+RUN chown -R 1000 /opt/rust/registry
+
+# Symlinks to make Rust and Go bindings find Qt includes
+RUN ln -s /usr/include/arm-linux-gnueabihf/qt5/QtCore/ /usr/include/QtCore
+# Fix default qmake
+RUN ln -s $(which qt5-qmake-arm-linux-gnueabihf) /usr/local/bin/qmake
+
 # TODO see if there is a better location for this
 ADD qt.conf /usr/bin/qt.conf
+ADD qt.conf /usr/local/bin/qt.conf
+
+# Create a dummy app to update the crates.io index initially
+RUN USER=dummy cargo new --bin dummy && \
+    cd dummy && \
+    mkdir -p .cargo/ && \
+    touch .cargo/config && \
+    echo '[target.armv7-unknown-linux-gnueabihf]' >> .cargo/config && \
+    echo 'linker = "arm-linux-gnueabihf-gcc"' >> .cargo/config && \
+    echo 'qmetaobject = "*"' >> Cargo.toml && \
+    cargo build --target armv7-unknown-linux-gnueabihf && \
+    cd .. && \
+    rm -r dummy && \
+    chown -R 1000 /opt/rust/registry
 
 # TODO this probably needs to be fixed upstream
 ADD ubuntu-click-tools.prf /usr/lib/arm-linux-gnueabihf/qt5/mkspecs/features/ubuntu-click-tools.prf
