@@ -79,9 +79,6 @@ RUN apt-get update && \
     rm rustup.sh
 ENV PATH=/opt/rust/bin:$PATH
 RUN rustup target add armv7-unknown-linux-gnueabihf
-# Add nightly toolchain and target
-#RUN rustup toolchain add nightly-x86_64-unknown-linux-gnu
-#RUN rustup target add armv7-unknown-linux-gnueabihf --toolchain nightly
 # Allow the default clickable user to update the registry as well as the git folder
 RUN mkdir -p /opt/rust/registry
 RUN chown -R 1000 /opt/rust/registry
