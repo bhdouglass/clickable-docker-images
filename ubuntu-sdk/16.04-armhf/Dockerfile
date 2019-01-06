@@ -94,19 +94,6 @@ RUN ln -s $(which qt5-qmake-arm-linux-gnueabihf) /usr/local/bin/qmake
 ADD qt.conf /usr/bin/qt.conf
 ADD qt.conf /usr/local/bin/qt.conf
 
-# Create a dummy app to update the crates.io index initially
-RUN USER=dummy cargo new --bin dummy && \
-    cd dummy && \
-    mkdir -p .cargo/ && \
-    touch .cargo/config && \
-    echo '[target.armv7-unknown-linux-gnueabihf]' >> .cargo/config && \
-    echo 'linker = "arm-linux-gnueabihf-gcc"' >> .cargo/config && \
-    echo 'qmetaobject = "*"' >> Cargo.toml && \
-    cargo build --target armv7-unknown-linux-gnueabihf && \
-    cd .. && \
-    rm -r dummy && \
-    chown -R 1000 /opt/rust/registry
-
 # TODO this probably needs to be fixed upstream
 ADD ubuntu-click-tools.prf /usr/lib/arm-linux-gnueabihf/qt5/mkspecs/features/ubuntu-click-tools.prf
 
