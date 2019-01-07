@@ -66,6 +66,22 @@ RUN wget https://storage.googleapis.com/golang/go1.6.linux-amd64.tar.gz && \
     ln -s /usr/include/x86_64-linux-gnu/qt5/QtCore/5.9.5/QtCore /usr/include/ && \
     rm go1.6.linux-amd64.tar.gz
 
+# Install Rust
+RUN mkdir -p opt/rust
+ENV CARGO_HOME=/opt/rust/cargo
+ENV RUSTUP_HOME=/opt/rust/rustup
+RUN apt-get update && \
+    apt-get install wget && \
+    wget https://sh.rustup.rs -O rustup.sh && \
+    bash rustup.sh -y --default-toolchain '1.31.1' && \
+    rm rustup.sh
+ENV PATH=/opt/rust/cargo/bin:$PATH
+# Allow the default clickable user to update the registry as well as the git folder
+RUN mkdir -p /opt/rust/cargo/registry
+RUN chown -R 1000 /opt/rust/cargo/registry
+RUN mkdir -p /opt/rust/cargo/git
+RUN chown -R 1000 /opt/rust/cargo/git
+
 # TODO this probably needs to be fixed upstream
 ADD ubuntu-click-tools.prf /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/ubuntu-click-tools.prf
 
