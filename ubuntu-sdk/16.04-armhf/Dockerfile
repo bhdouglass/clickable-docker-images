@@ -63,7 +63,8 @@ RUN apt-get update && \
         click-reviewers-tools \
         ubuntu-sdk-libs-dev:armhf \
         ubuntu-sdk-libs-tools \
-        ubuntu-sdk-libs:armhf && \
+        ubuntu-sdk-libs:armhf \
+        libconnectivity-qt1-dev:armhf && \
     npm install -g cordova@7.0.0 && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
