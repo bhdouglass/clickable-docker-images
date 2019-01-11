@@ -51,6 +51,7 @@ RUN apt-get -y --no-install-recommends dist-upgrade && \
         qtsystems5-dev \
         qml-module-io-thp-pyotherside \
         morph-webapp-container \
+        libconnectivity-qt1-dev \
         && \
     apt-get clean
 
