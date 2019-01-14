@@ -6,59 +6,57 @@ RUN echo 'Acquire::CompressionTypes::Order:: "gz";' > /etc/apt/apt.conf.d/99comp
     echo set debconf/frontend Noninteractive | debconf-communicate && \
     echo set debconf/priority critical | debconf-communicate
 
+# Add ubport repos
 RUN echo "deb [arch=amd64] http://archive.ubuntu.com/ubuntu xenial main resticted multiverse universe" > /etc/apt/sources.list && \
     echo "deb [arch=amd64] http://archive.ubuntu.com/ubuntu xenial-updates main resticted multiverse universe" >> /etc/apt/sources.list && \
     echo "deb [arch=amd64] http://archive.ubuntu.com/ubuntu xenial-security main resticted multiverse universe" >> /etc/apt/sources.list && \
-    apt-get update
-
-RUN apt-get -y -f --no-install-recommends install gnupg ubuntu-keyring software-properties-common wget && \
+    # Add other repos
+    apt-get update && \
+    apt-get -y -f --no-install-recommends install gnupg ubuntu-keyring software-properties-common wget && \
     echo "deb http://repo.ubports.com xenial main" >> /etc/apt/sources.list && \
     wget -qO - http://repo.ubports.com/keyring.gpg | apt-key add - && \
+    wget -qO- https://deb.nodesource.com/setup_10.x | bash - && \
+    add-apt-repository ppa:bhdouglass/clickable && \
+    # Cleanup
+    apt-get -y remove software-properties-common && \
+    apt-get -y autoremove && \
     apt-get clean && \
-    rm -rf /var/lib/apt/lists/* && \
-    apt-get update
+    rm -rf /var/lib/apt/lists/*
 
-RUN apt-get -y --no-install-recommends dist-upgrade && \
+    # Install dependencies
+RUN apt-get update && \
+    apt-get -y --no-install-recommends dist-upgrade && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/* && \
     apt-get update && \
     apt-get -y --no-install-recommends install \
-        apt-utils \
         build-essential \
         cmake \
-        dpkg-cross \
-        fakeroot \
+        git \
         libc-dev \
+        libicu-dev \
         isc-dhcp-client \
-        net-tools \
-        ifupdown \
-        g++-arm-linux-gnueabihf \
-        pkg-config-arm-linux-gnueabihf \
+        nodejs \
+        qtbase5-private-dev \
+        qtdeclarative5-private-dev \
+        qtfeedback5-dev \
+        qtpositioning5-dev \
+        qtquickcontrols2-5-dev \
+        qtsystems5-dev \
+        qtwebengine5-dev \
+        libqt5opengl5-dev \
+        language-pack-en \
+        click \
+        click-reviewers-tools \
+        morph-webapp-container \
         ubuntu-sdk-libs \
         ubuntu-sdk-libs-dev \
         ubuntu-sdk-libs-tools \
-        oxideqt-codecs-extra \
-        language-pack-en \
-        click \
-        qtquickcontrols2-5-dev \
-        qtbase5-private-dev \
-        qtdeclarative5-private-dev \
-        libqt5opengl5-dev \
-        mercurial \
-        git \
-        libicu-dev \
-        qtfeedback5-dev \
-        qtsystems5-dev \
-        qml-module-io-thp-pyotherside \
-        morph-webapp-container \
         libconnectivity-qt1-dev \
         && \
-    apt-get clean
-
-# Install cordova
-RUN wget -qO- https://deb.nodesource.com/setup_10.x | bash - && \
-    apt-get install -y nodejs && \
-    npm install -g cordova@7.0.0
+    npm install -g cordova@7.0.0 && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
 
 # Install go
 RUN wget https://storage.googleapis.com/golang/go1.6.linux-amd64.tar.gz && \
@@ -67,21 +65,22 @@ RUN wget https://storage.googleapis.com/golang/go1.6.linux-amd64.tar.gz && \
     ln -s /usr/include/x86_64-linux-gnu/qt5/QtCore/5.9.5/QtCore /usr/include/ && \
     rm go1.6.linux-amd64.tar.gz
 
+# Rust env vars
+ENV CARGO_HOME=/opt/rust/cargo \
+    RUSTUP_HOME=/opt/rust/rustup \
+    PATH=/opt/rust/cargo/bin:$PATH
+
 # Install Rust
-RUN mkdir -p opt/rust
-ENV CARGO_HOME=/opt/rust/cargo
-ENV RUSTUP_HOME=/opt/rust/rustup
-RUN apt-get update && \
-    apt-get install wget && \
+RUN mkdir -p opt/rust && \
     wget https://sh.rustup.rs -O rustup.sh && \
     bash rustup.sh -y --default-toolchain '1.31.1' && \
-    rm rustup.sh
-ENV PATH=/opt/rust/cargo/bin:$PATH
-# Allow the default clickable user to update the registry as well as the git folder
-RUN mkdir -p /opt/rust/cargo/registry
-RUN chown -R 1000 /opt/rust/cargo/registry
-RUN mkdir -p /opt/rust/cargo/git
-RUN chown -R 1000 /opt/rust/cargo/git
+    rm rustup.sh && \
+    rustup target add armv7-unknown-linux-gnueabihf && \
+    # Allow the default clickable user to update the registry as well as the git folder
+    mkdir -p /opt/rust/cargo/registry && \
+    chown -R 1000 /opt/rust/cargo/registry && \
+    mkdir -p /opt/rust/cargo/git && \
+    chown -R 1000 /opt/rust/cargo/git
 
 # TODO this probably needs to be fixed upstream
 ADD ubuntu-click-tools.prf /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/ubuntu-click-tools.prf

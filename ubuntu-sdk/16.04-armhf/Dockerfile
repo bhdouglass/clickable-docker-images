@@ -22,14 +22,8 @@ RUN echo "deb [arch=amd64] http://archive.ubuntu.com/ubuntu xenial main resticte
     wget -qO - http://repo.ubports.com/keyring.gpg | apt-key add - && \
     wget -qO- https://deb.nodesource.com/setup_10.x | bash - && \
     add-apt-repository ppa:bhdouglass/clickable && \
-    # Install go (Doing this here so wget can be removed when we are done with it)
-    wget https://storage.googleapis.com/golang/go1.6.linux-amd64.tar.gz && \
-    tar -xvf go1.6.linux-amd64.tar.gz && \
-    mv go /usr/local && \
-    ln -s /usr/include/arm-linux-gnueabihf/qt5/QtCore/5.9.5/QtCore /usr/include/ && \
-    rm go1.6.linux-amd64.tar.gz && \
     # Cleanup
-    apt-get -y remove software-properties-common wget && \
+    apt-get -y remove software-properties-common && \
     apt-get -y autoremove && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
@@ -69,22 +63,29 @@ RUN apt-get update && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
+# Install Go 
+RUN wget https://storage.googleapis.com/golang/go1.6.linux-amd64.tar.gz && \
+    tar -xvf go1.6.linux-amd64.tar.gz && \
+    mv go /usr/local && \
+    ln -s /usr/include/arm-linux-gnueabihf/qt5/QtCore/5.9.5/QtCore /usr/include/ && \
+    rm go1.6.linux-amd64.tar.gz
+
+# Rust env vars
+ENV CARGO_HOME=/opt/rust/cargo \
+    RUSTUP_HOME=/opt/rust/rustup \
+    PATH=/opt/rust/cargo/bin:$PATH
+
 # Install Rust
-RUN mkdir -p opt/rust
-ENV CARGO_HOME=/opt/rust/cargo
-ENV RUSTUP_HOME=/opt/rust/rustup
-RUN apt-get update && \
-    apt-get install wget && \
+RUN mkdir -p opt/rust && \
     wget https://sh.rustup.rs -O rustup.sh && \
     bash rustup.sh -y --default-toolchain '1.31.1' && \
-    rm rustup.sh
-ENV PATH=/opt/rust/cargo/bin:$PATH
-RUN rustup target add armv7-unknown-linux-gnueabihf
-# Allow the default clickable user to update the registry as well as the git folder
-RUN mkdir -p /opt/rust/cargo/registry
-RUN chown -R 1000 /opt/rust/cargo/registry
-RUN mkdir -p /opt/rust/cargo/git
-RUN chown -R 1000 /opt/rust/cargo/git
+    rm rustup.sh && \
+    rustup target add armv7-unknown-linux-gnueabihf && \
+    # Allow the default clickable user to update the registry as well as the git folder
+    mkdir -p /opt/rust/cargo/registry && \
+    chown -R 1000 /opt/rust/cargo/registry && \
+    mkdir -p /opt/rust/cargo/git && \
+    chown -R 1000 /opt/rust/cargo/git
 
 # Symlinks to make Rust and Go bindings find Qt includes
 RUN ln -s /usr/include/arm-linux-gnueabihf/qt5/QtCore/ /usr/include/QtCore
