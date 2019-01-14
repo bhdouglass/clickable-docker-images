@@ -69,8 +69,31 @@ RUN apt-get update && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
+# Install Rust
+RUN mkdir -p opt/rust
+ENV CARGO_HOME=/opt/rust/cargo
+ENV RUSTUP_HOME=/opt/rust/rustup
+RUN apt-get update && \
+    apt-get install wget && \
+    wget https://sh.rustup.rs -O rustup.sh && \
+    bash rustup.sh -y --default-toolchain '1.31.1' && \
+    rm rustup.sh
+ENV PATH=/opt/rust/cargo/bin:$PATH
+RUN rustup target add armv7-unknown-linux-gnueabihf
+# Allow the default clickable user to update the registry as well as the git folder
+RUN mkdir -p /opt/rust/cargo/registry
+RUN chown -R 1000 /opt/rust/cargo/registry
+RUN mkdir -p /opt/rust/cargo/git
+RUN chown -R 1000 /opt/rust/cargo/git
+
+# Symlinks to make Rust and Go bindings find Qt includes
+RUN ln -s /usr/include/arm-linux-gnueabihf/qt5/QtCore/ /usr/include/QtCore
+# Fix default qmake
+RUN ln -s $(which qt5-qmake-arm-linux-gnueabihf) /usr/local/bin/qmake
+
 # TODO see if there is a better location for this
 ADD qt.conf /usr/bin/qt.conf
+ADD qt.conf /usr/local/bin/qt.conf
 
 # TODO this probably needs to be fixed upstream
 ADD ubuntu-click-tools.prf /usr/lib/arm-linux-gnueabihf/qt5/mkspecs/features/ubuntu-click-tools.prf
