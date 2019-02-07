@@ -58,12 +58,14 @@ RUN apt-get update && \
         ubuntu-sdk-libs-dev:armhf \
         ubuntu-sdk-libs-tools \
         ubuntu-sdk-libs:armhf \
-        libconnectivity-qt1-dev:armhf && \
+        libconnectivity-qt1-dev:armhf \
+        libnotify-dev:armhf \
+        && \
     npm install -g cordova@7.0.0 && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
-# Install Go 
+# Install Go
 RUN wget https://storage.googleapis.com/golang/go1.6.linux-amd64.tar.gz && \
     tar -xvf go1.6.linux-amd64.tar.gz && \
     mv go /usr/local && \
