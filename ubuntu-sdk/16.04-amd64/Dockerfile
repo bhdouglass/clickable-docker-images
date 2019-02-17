@@ -18,7 +18,6 @@ RUN echo "deb [arch=amd64] http://archive.ubuntu.com/ubuntu xenial main resticte
     wget -qO- https://deb.nodesource.com/setup_10.x | bash - && \
     add-apt-repository ppa:bhdouglass/clickable && \
     # Cleanup
-    apt-get -y remove software-properties-common && \
     apt-get -y autoremove && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
