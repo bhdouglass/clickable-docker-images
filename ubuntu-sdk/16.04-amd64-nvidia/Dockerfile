@@ -1,7 +1,7 @@
+FROM nvidia/opengl:1.0-glvnd-runtime-ubuntu16.04 as nvidia
 FROM clickable/ubuntu-sdk:16.04-amd64
 MAINTAINER Brian Douglass
 LABEL Modified by Lukas Baubkus
-LABEL com.nvidia.volumes.needed="nvidia_driver"
 
 RUN apt-get update && \
     apt-get install -y --no-install-recommends --force-yes \
@@ -16,13 +16,7 @@ RUN apt-get update && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
-RUN echo "/usr/local/nvidia/lib" >> /etc/ld.so.conf.d/nvidia.conf && \
-    echo "/usr/local/nvidia/lib64" >> /etc/ld.so.conf.d/nvidia.conf
+COPY --from=nvidia /usr/local /usr/local
+COPY --from=nvidia /etc/ld.so.conf.d/glvnd.conf /etc/ld.so.conf.d/glvnd.conf
 
-RUN mkdir -p /opt/nvidia/lib && \
-    ln -s /usr/local/nvidia/lib /opt/nvidia/lib/i386-linux-gnu && \
-    ln -s /usr/local/nvidia/lib64 /opt/nvidia/lib/x86_64-linux-gnu
-
-ENV PATH /usr/local/nvidia/bin:${PATH}
-ENV LD_LIBRARY_PATH /usr/local/nvidia/lib:/usr/local/nvidia/lib64:${LD_LIBRARY_PATH}
-ENV LD_PRELOAD /opt/nvidia/\$LIB/libGL.so.1:${LD_PRELOAD}
+ENV NVIDIA_VISIBLE_DEVICES=all NVIDIA_DRIVER_CAPABILITIES=all
