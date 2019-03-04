@@ -13,6 +13,7 @@ RUN apt-get update && \
         python3-stdeb \
         python3-cookiecutter \
         python3-ipdb \
+        python3-jsonschema \
         fakeroot \
         build-essential \
         devscripts \
