@@ -60,11 +60,11 @@ RUN apt-get update && \
     rm -rf /var/lib/apt/lists/*
 
 # Install go
-RUN wget https://storage.googleapis.com/golang/go1.6.linux-amd64.tar.gz && \
-    tar -xvf go1.6.linux-amd64.tar.gz && \
+RUN wget https://dl.google.com/go/go1.11.6.linux-amd64.tar.gz && \
+    tar -xvf go1.11.6.linux-amd64.tar.gz && \
     mv go /usr/local && \
     ln -s /usr/include/x86_64-linux-gnu/qt5/QtCore/5.9.5/QtCore /usr/include/ && \
-    rm go1.6.linux-amd64.tar.gz
+    rm go1.11.6.linux-amd64.tar.gz
 
 # Rust env vars
 ENV CARGO_HOME=/opt/rust/cargo \
