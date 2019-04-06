@@ -52,6 +52,7 @@ RUN apt-get update && \
         ubuntu-sdk-libs-dev \
         ubuntu-sdk-libs-tools \
         qml-module-io-thp-pyotherside \
+        qml-module-ubuntu-connectivity \
         libconnectivity-qt1-dev \
         libnotify-dev \
         && \
