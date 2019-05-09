@@ -56,6 +56,9 @@ RUN apt-get update && \
         qml-module-ubuntu-thumbnailer0.1 \
         libconnectivity-qt1-dev \
         libnotify-dev \
+        libtag1-dev \
+        libsmbclient-dev \
+        libpam0g-dev \
         && \
     npm install -g cordova@7.0.0 && \
     apt-get clean && \

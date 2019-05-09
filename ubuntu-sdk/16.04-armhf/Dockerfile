@@ -59,6 +59,9 @@ RUN apt-get update && \
         ubuntu-sdk-libs:armhf \
         libconnectivity-qt1-dev:armhf \
         libnotify-dev:armhf \
+        libtag1-dev:armhf \
+        libsmbclient-dev:armhf \
+        libpam0g-dev:armhf \
         && \
     npm install -g cordova@7.0.0 && \
     apt-get clean && \
