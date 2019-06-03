@@ -59,6 +59,7 @@ RUN apt-get update && \
         libtag1-dev \
         libsmbclient-dev \
         libpam0g-dev \
+        xvfb \
         && \
     npm install -g cordova@7.0.0 && \
     apt-get clean && \
