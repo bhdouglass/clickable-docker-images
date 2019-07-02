@@ -92,4 +92,7 @@ RUN mkdir -p opt/rust && \
 # TODO this probably needs to be fixed upstream
 ADD ubuntu-click-tools.prf /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/ubuntu-click-tools.prf
 
+ADD xvfb-startup.sh /usr/local/bin/xvfb-startup
+RUN chmod +x /usr/local/bin/xvfb-startup
+
 ENV CGO_ENABLED=1
