@@ -81,7 +81,7 @@ ENV CARGO_HOME=/opt/rust/cargo \
 # Install Rust
 RUN mkdir -p opt/rust && \
     wget https://sh.rustup.rs -O rustup.sh && \
-    bash rustup.sh -y --default-toolchain '1.31.1' && \
+    bash rustup.sh -y --default-toolchain '1.36.0' && \
     rm rustup.sh && \
     rustup target add armv7-unknown-linux-gnueabihf && \
     # Allow the default clickable user to update the registry as well as the git folder
