@@ -90,6 +90,10 @@ RUN mkdir -p opt/rust && \
     mkdir -p /opt/rust/cargo/git && \
     chown -R 1000 /opt/rust/cargo/git
 
+# Add user phablet
+RUN groupadd -r phablet -g 1000 && useradd -u 1000 -r -g phablet -m -d /home/phablet -s /sbin/nologin -c "phablet user"  phablet && \
+    chmod 755 /home/phablet
+
 # TODO this probably needs to be fixed upstream
 ADD ubuntu-click-tools.prf /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/ubuntu-click-tools.prf
 
