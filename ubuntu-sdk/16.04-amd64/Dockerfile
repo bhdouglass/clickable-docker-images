@@ -61,6 +61,7 @@ RUN apt-get update && \
         libpam0g-dev \
         xvfb \
         gdb \
+        gdbserver \
         && \
     npm install -g cordova@7.0.0 && \
     apt-get clean && \
