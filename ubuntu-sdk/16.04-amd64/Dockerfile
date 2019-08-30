@@ -59,6 +59,8 @@ RUN apt-get update && \
         libtag1-dev \
         libsmbclient-dev \
         libpam0g-dev \
+        python3-requests \
+        python3-gnupg \
         xvfb \
         gdb \
         gdbserver \
