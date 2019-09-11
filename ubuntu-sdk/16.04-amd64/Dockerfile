@@ -64,6 +64,9 @@ RUN apt-get update && \
         xvfb \
         gdb \
         gdbserver \
+        gstreamer1.0-plugins-good \
+        gstreamer1.0-plugins-bad \
+        gstreamer1.0-plugins-ugly \
         && \
     npm install -g cordova@7.0.0 && \
     apt-get clean && \
