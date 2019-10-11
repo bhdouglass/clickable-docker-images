@@ -1,5 +1,5 @@
 FROM ubuntu:bionic
-MAINTAINER Brian Douglass
+LABEL maintainer="Brian Douglass"
 
 RUN echo set debconf/frontend Noninteractive | debconf-communicate && \
     echo set debconf/priority critical | debconf-communicate

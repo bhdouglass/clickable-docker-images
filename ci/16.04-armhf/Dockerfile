@@ -1,5 +1,5 @@
 FROM clickable/ubuntu-sdk:16.04-armhf
-MAINTAINER Brian Douglass
+LABEL maintainer="Brian Douglass"
 
 RUN apt-get update && \
     apt-get -y -f --no-install-recommends install gnupg ubuntu-keyring software-properties-common && \
@@ -12,3 +12,4 @@ RUN apt-get update && \
     rm -rf /var/lib/apt/lists/*
 
 ENV CLICKABLE_CONTAINER_MODE=1
+ENV CLICKABLE_ARCH=armhf

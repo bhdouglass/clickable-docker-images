@@ -1,5 +1,5 @@
 FROM clickable/ubuntu-sdk:16.04-arm64
-MAINTAINER Brian Douglass
+LABEL maintainer="Brian Douglass"
 
 RUN apt-get update && \
     apt-get -y -f --no-install-recommends install gnupg ubuntu-keyring software-properties-common && \
