@@ -12,3 +12,4 @@ RUN apt-get update && \
     rm -rf /var/lib/apt/lists/*
 
 ENV CLICKABLE_CONTAINER_MODE=1
+ENV CLICKABLE_ARCH=arm64
