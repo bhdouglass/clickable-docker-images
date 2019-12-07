@@ -17,7 +17,7 @@ RUN echo "deb [arch=amd64] http://archive.ubuntu.com/ubuntu xenial main resticte
     dpkg --add-architecture armhf && \
     # Add other repos
     apt-get update && \
-    apt-get -y -f --no-install-recommends install gnupg ubuntu-keyring software-properties-common wget && \
+    apt-get -y -f --no-install-recommends install gnupg ubuntu-keyring software-properties-common wget equivs && \
     echo "deb http://repo.ubports.com xenial main" >> /etc/apt/sources.list && \
     wget -qO - http://repo.ubports.com/keyring.gpg | apt-key add - && \
     wget -qO- https://deb.nodesource.com/setup_10.x | bash - && \
@@ -26,6 +26,12 @@ RUN echo "deb [arch=amd64] http://archive.ubuntu.com/ubuntu xenial main resticte
     apt-get -y autoremove && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
+
+# Fake out dependency issues
+ADD qml-module-io-thp-pyotherside /tmp/qml-module-io-thp-pyotherside
+RUN cd /tmp && \
+    equivs-build qml-module-io-thp-pyotherside --arch armhf && \
+    dpkg -i qml-module-io-thp-pyotherside_1.0_armhf.deb
 
 # Install dependencies
 RUN apt-get update && \
