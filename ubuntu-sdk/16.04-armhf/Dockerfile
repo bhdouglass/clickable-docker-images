@@ -27,12 +27,6 @@ RUN echo "deb [arch=amd64] http://archive.ubuntu.com/ubuntu xenial main resticte
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
-# Fake out dependency issues
-ADD qml-module-io-thp-pyotherside /tmp/qml-module-io-thp-pyotherside
-RUN cd /tmp && \
-    equivs-build qml-module-io-thp-pyotherside --arch armhf && \
-    dpkg -i qml-module-io-thp-pyotherside_1.0_armhf.deb
-
 # Install dependencies
 RUN apt-get update && \
     apt-get -y --no-install-recommends dist-upgrade && \
