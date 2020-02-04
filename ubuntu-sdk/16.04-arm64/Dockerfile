@@ -97,8 +97,8 @@ RUN mkdir -p opt/rust && \
 RUN ln -s /usr/include/aarch64-linux-gnu/qt5/QtCore/ /usr/include/QtCore
 # Fix default qmake
 
-# TODO find an alternative for qt5-qmake-arm-....
-#RUN ln -s $(which qt5-qmake-aarch64-linux-gnu) /usr/local/bin/qmake
+# Fix default qmake (suprisingly this works for arm64, too)
+RUN ln -s $(which qt5-qmake-arm-linux-gnueabihf) /usr/local/bin/qmake
 
 # TODO see if there is a better location for this
 ADD qt.conf /usr/bin/qt.conf
