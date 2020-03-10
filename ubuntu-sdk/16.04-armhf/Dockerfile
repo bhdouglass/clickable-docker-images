@@ -40,6 +40,9 @@ RUN apt-get update && \
         dpkg-cross \
         g++-arm-linux-gnueabihf \
         crossbuild-essential-armhf \
+        gdb-multiarch \
+        gdbserver:armhf \
+        libc6-dbg:armhf \
         libc-dev:armhf \
         libicu-dev:armhf \
         nodejs \
