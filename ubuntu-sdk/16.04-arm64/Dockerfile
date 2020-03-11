@@ -40,6 +40,9 @@ RUN apt-get update && \
         dpkg-cross \
         g++-aarch64-linux-gnu \
         crossbuild-essential-arm64 \
+        gdb-multiarch \
+        gdbserver:arm64 \
+        libc6-dbg:arm64 \
         libc-dev:arm64 \
         libicu-dev:arm64 \
         nodejs \
