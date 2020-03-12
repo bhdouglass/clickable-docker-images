@@ -108,4 +108,7 @@ ADD ubuntu-click-tools.prf /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/ubuntu
 ADD xvfb-startup.sh /usr/local/bin/xvfb-startup
 RUN chmod +x /usr/local/bin/xvfb-startup
 
+# Add clickabe compatibility version file
+ADD image_version /image_version
+
 ENV CGO_ENABLED=1
