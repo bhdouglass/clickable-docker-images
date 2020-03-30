@@ -108,6 +108,9 @@ ADD qt.conf /usr/local/bin/qt.conf
 # TODO this probably needs to be fixed upstream
 ADD ubuntu-click-tools.prf /usr/lib/arm-linux-gnueabihf/qt5/mkspecs/features/ubuntu-click-tools.prf
 
+# Add clickabe compatibility version file
+ADD image_version /image_version
+
 # Generated from `dpkg-architecture -a armhf`
 ENV DEB_BUILD_ARCH=amd64 \
     DEB_BUILD_ARCH_BITS=64 \
