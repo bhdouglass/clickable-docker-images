@@ -62,6 +62,7 @@ RUN apt-get update && \
         python3-requests \
         python3-gnupg \
         xvfb \
+        valgrind \
         gdb \
         gdbserver \
         gstreamer1.0-plugins-good \
