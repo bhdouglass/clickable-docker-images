@@ -76,11 +76,11 @@ RUN apt-get update && \
     rm -rf /var/lib/apt/lists/*
 
 # Install go
-RUN wget https://dl.google.com/go/go1.12.5.linux-amd64.tar.gz && \
-    tar -xvf go1.12.5.linux-amd64.tar.gz && \
+RUN wget https://dl.google.com/go/go1.14.2.linux-amd64.tar.gz && \
+    tar -xvf go*.linux-amd64.tar.gz && \
     mv go /usr/local && \
     ln -s /usr/include/x86_64-linux-gnu/qt5/QtCore/5.9.5/QtCore /usr/include/ && \
-    rm go1.12.5.linux-amd64.tar.gz
+    rm go*.linux-amd64.tar.gz
 
 # Rust env vars
 ENV CARGO_HOME=/opt/rust/cargo \
