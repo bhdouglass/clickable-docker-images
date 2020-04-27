@@ -1,10 +1,10 @@
 # Clickable Docker Images
 
-Docker images for [Clickable](http://clickable.bhdouglass.com/en/latest/).
+Docker images for [Clickable](https://clickable-ut.dev/en/latest/).
 
 ## License
 
-Copyright (C) 2018 [Brian Douglass](http://bhdouglass.com/)
+Copyright (C) 2020 [Brian Douglass](http://bhdouglass.com/)
 
 This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License version 3, as published
 by the Free Software Foundation.
