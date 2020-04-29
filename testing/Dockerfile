@@ -7,4 +7,4 @@ RUN apt-get update && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
-RUN pip3 install --upgrade nose coverage cookiecutter
+RUN pip3 install --upgrade nose coverage cookiecutter setuptools wheel twine
