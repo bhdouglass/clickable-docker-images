@@ -75,6 +75,9 @@ RUN apt-get update && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
+# Go env vars
+ENV PATH=/usr/local/go/bin/:$PATH
+
 # Install go
 RUN wget https://dl.google.com/go/go1.14.2.linux-amd64.tar.gz && \
     tar -xvf go*.linux-amd64.tar.gz && \
