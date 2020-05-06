@@ -31,8 +31,11 @@ RUN apt-get update && \
         python3-pytest-mock \
         python3-pytest-cov \
         python3-freezegun \
+        python3-pip \
         && \
     apt-get -y remove software-properties-common && \
     apt-get -y autoremove && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
+
+RUN pip3 install --upgrade twine
