@@ -1,5 +1,6 @@
 FROM ubuntu:xenial
 LABEL maintainer="Brian Douglass"
+LABEL image_version="2"
 
 # Disable problematic lzma compression - https://blog.packagecloud.io/eng/2016/03/21/apt-hash-sum-mismatch/
 RUN echo 'Acquire::CompressionTypes::Order:: "gz";' > /etc/apt/apt.conf.d/99compression-workaround && \
