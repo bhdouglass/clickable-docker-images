@@ -3,7 +3,9 @@ LABEL maintainer="Brian Douglass"
 LABEL Modified by Lionel Duboeuf
 
 RUN apt-get update && apt-get install -y \
-	qtcreator
+	qtcreator && \
+	apt-get clean && \
+	rm -rf /var/lib/apt/lists/*
 
 ##install plugins
 COPY plugins.csv /tmp/plugins.csv
