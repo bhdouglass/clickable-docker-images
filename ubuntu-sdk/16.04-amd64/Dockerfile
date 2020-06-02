@@ -101,6 +101,7 @@ RUN apt-get update && \
         gstreamer1.0-plugins-ugly \
         locales-all \
         tzdata \
+        upstart \
         && \
     npm install -g cordova@7.0.0 && \
     apt-get clean && \
