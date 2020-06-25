@@ -102,6 +102,7 @@ RUN apt-get update && \
         locales-all \
         tzdata \
         upstart \
+        qtubuntu-appmenutheme \
         && \
     npm install -g cordova@7.0.0 && \
     apt-get clean && \
@@ -148,3 +149,4 @@ RUN chmod +x /usr/local/bin/xvfb-startup
 ADD image_version /image_version
 
 ENV CGO_ENABLED=1
+ENV QT_QPA_PLATFORMTHEME=ubuntuappmenu
