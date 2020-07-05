@@ -13,3 +13,4 @@ Ubuntu.ContactEditor.ContactEditor;0.1;Ubuntu/AddressBook/ContactEditor
 Ubuntu.ContactEditor.ContactShare;0.1;Ubuntu/AddressBook/ContactShare
 Ubuntu.ContactEditor.ContactView;0.1;Ubuntu/AddressBook/ContactView
 io.thp.pyotherside;1.3;io/thp/pyotherside
+QtQuick.Controls.Suru;2.2;QtQuick/Controls.2/Suru
