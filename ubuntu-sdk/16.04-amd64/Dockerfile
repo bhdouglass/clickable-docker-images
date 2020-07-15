@@ -16,7 +16,7 @@ RUN echo "deb [arch=amd64] http://archive.ubuntu.com/ubuntu xenial main resticte
     apt-get -y -f --no-install-recommends install gnupg ubuntu-keyring software-properties-common wget && \
     echo "deb http://repo.ubports.com xenial main" >> /etc/apt/sources.list && \
     wget -qO - http://repo.ubports.com/keyring.gpg | apt-key add - && \
-    wget -qO- https://deb.nodesource.com/setup_10.x | bash - && \
+    wget -qO- https://deb.nodesource.com/setup_12.x | bash - && \
     add-apt-repository ppa:bhdouglass/clickable && \
     # Cleanup
     apt-get -y autoremove && \
