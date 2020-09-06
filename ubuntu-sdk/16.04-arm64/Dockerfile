@@ -23,6 +23,7 @@ RUN echo "deb [arch=amd64] http://archive.ubuntu.com/ubuntu xenial main resticte
     wget -qO - http://repo.ubports.com/keyring.gpg | apt-key add - && \
     wget -qO- https://deb.nodesource.com/setup_12.x | bash - && \
     add-apt-repository ppa:bhdouglass/clickable && \
+    add-apt-repository ppa:mardy/qbs-on-lts && \
     # Cleanup
     apt-get -y autoremove && \
     apt-get clean && \
@@ -48,6 +49,7 @@ RUN apt-get update && \
         libicu-dev:arm64 \
         nodejs \
         pkg-config-aarch64-linux-gnu \
+        qbs \
         qtbase5-private-dev:arm64 \
         qtdeclarative5-private-dev:arm64 \
         qtfeedback5-dev:arm64 \
@@ -106,6 +108,12 @@ RUN ln -s /usr/include/aarch64-linux-gnu/qt5/QtCore/ /usr/include/QtCore
 
 # Fix default qmake (suprisingly this works for arm64, too)
 RUN ln -s $(which qt5-qmake-arm-linux-gnueabihf) /usr/local/bin/qmake
+
+# QBS setup
+RUN qbs setup-toolchains --system --detect && \
+    qbs setup-qt --system /usr/local/bin/qmake qt5 && \
+    qbs config --system defaultProfile qt5 && \
+    qbs config --system profiles.qt5.baseProfile aarch64-linux-gnu-gcc-5
 
 # TODO see if there is a better location for this
 ADD qt.conf /usr/bin/qt.conf
