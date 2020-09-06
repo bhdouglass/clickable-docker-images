@@ -37,6 +37,7 @@ RUN apt-get update && \
     apt-get -y --no-install-recommends install \
         build-essential \
         cmake \
+        pkg-config \
         git \
         dpkg-cross \
         g++-aarch64-linux-gnu \
