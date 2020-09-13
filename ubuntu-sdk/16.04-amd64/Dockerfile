@@ -18,6 +18,7 @@ RUN echo "deb [arch=amd64] http://archive.ubuntu.com/ubuntu xenial main resticte
     wget -qO - http://repo.ubports.com/keyring.gpg | apt-key add - && \
     wget -qO- https://deb.nodesource.com/setup_12.x | bash - && \
     add-apt-repository ppa:bhdouglass/clickable && \
+    add-apt-repository ppa:mardy/qbs-on-lts && \
     # Cleanup
     apt-get -y autoremove && \
     apt-get clean && \
@@ -38,6 +39,7 @@ RUN apt-get update && \
         libicu-dev \
         isc-dhcp-client \
         nodejs \
+        qbs \
         qtbase5-private-dev \
         qtdeclarative5-private-dev \
         qtfeedback5-dev \
@@ -135,6 +137,12 @@ RUN mkdir -p opt/rust && \
     chown -R 1000 /opt/rust/cargo/registry && \
     mkdir -p /opt/rust/cargo/git && \
     chown -R 1000 /opt/rust/cargo/git
+
+# QBS setup
+RUN qbs setup-toolchains --system --detect && \
+    qbs setup-qt --system /usr/bin/qmake qt5 && \
+    qbs config --system defaultProfile qt5 && \
+    qbs config --system profiles.qt5.baseProfile gcc
 
 # Add user phablet
 RUN groupadd -r phablet -g 1000 && useradd -u 1000 -r -g phablet -m -d /home/phablet -s /sbin/nologin -c "phablet user"  phablet && \

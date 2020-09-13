@@ -23,6 +23,7 @@ RUN echo "deb [arch=amd64] http://archive.ubuntu.com/ubuntu xenial main resticte
     wget -qO - http://repo.ubports.com/keyring.gpg | apt-key add - && \
     wget -qO- https://deb.nodesource.com/setup_12.x | bash - && \
     add-apt-repository ppa:bhdouglass/clickable && \
+    add-apt-repository ppa:mardy/qbs-on-lts && \
     # Cleanup
     apt-get -y autoremove && \
     apt-get clean && \
@@ -49,6 +50,7 @@ RUN apt-get update && \
         libicu-dev:armhf \
         nodejs \
         pkg-config-arm-linux-gnueabihf \
+        qbs \
         qtbase5-private-dev:armhf \
         qtdeclarative5-private-dev:armhf \
         qtfeedback5-dev:armhf \
@@ -105,6 +107,18 @@ RUN mkdir -p opt/rust && \
 RUN ln -s /usr/include/arm-linux-gnueabihf/qt5/QtCore/ /usr/include/QtCore
 # Fix default qmake
 RUN ln -s $(which qt5-qmake-arm-linux-gnueabihf) /usr/local/bin/qmake
+
+# Ubuntu ships (in Xenial only) a qmake profile for armhf in qt5-qmake, but the
+# `ubuntu` prefix confuses QBS; let's rename it, while still keeping the old file
+# to avoid breaking older clickable releases:
+RUN cp -a /usr/lib/arm-linux-gnueabihf/qt5/mkspecs/ubuntu-arm-gnueabihf-g++ \
+       /usr/lib/arm-linux-gnueabihf/qt5/mkspecs/linux-arm-gnueabihf-g++
+
+# QBS setup
+RUN qbs setup-toolchains --system --detect && \
+    qbs setup-qt --system /usr/local/bin/qmake qt5 && \
+    qbs config --system defaultProfile qt5 && \
+    qbs config --system profiles.qt5.baseProfile arm-linux-gnueabihf-gcc-5
 
 # TODO see if there is a better location for this
 ADD qt.conf /usr/bin/qt.conf
