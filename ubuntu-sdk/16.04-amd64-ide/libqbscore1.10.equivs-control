@@ -1,0 +1,6 @@
+Package: libqbscore1.10
+Provides: libqbsqtprofilesetup1.10
+Multi-Arch: foreign
+Description: Qbs 1.10 fake package
+ This Docker image contains a newer version of Qbs. This package is only needed
+ to satisfy QtCreator's dependencies.
