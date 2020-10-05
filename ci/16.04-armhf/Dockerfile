@@ -5,6 +5,8 @@ ENV LANG=en_US.UTF-8
 ENV LC_ALL=en_US.UTF-8
 ENV LANGUAGE=en_US.UTF-8
 
+ENV DEBIAN_FRONTEND noninteractive
+
 RUN apt-get update && \
     apt-get -y -f --no-install-recommends install gnupg ubuntu-keyring software-properties-common && \
     add-apt-repository ppa:bhdouglass/clickable && \
@@ -17,3 +19,4 @@ RUN apt-get update && \
 
 ENV CLICKABLE_CONTAINER_MODE=1
 ENV CLICKABLE_ARCH=armhf
+ENV CLICKABLE_NON_INTERACTIVE=1
