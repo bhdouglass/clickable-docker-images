@@ -12,7 +12,7 @@ RUN apt-get update && \
     add-apt-repository ppa:bhdouglass/clickable && \
     apt-get update && \
     apt-get install -y clickable locales-all && \
-    apt-get -y remove software-properties-common wget && \
+    apt-get -y remove wget && \
     apt-get -y autoremove && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
