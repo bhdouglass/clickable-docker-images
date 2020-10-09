@@ -1,5 +1,5 @@
-FROM ubuntu:xenial
-LABEL maintainer="Brian Douglass"
+FROM amd64/ubuntu:xenial
+LABEL maintainer="Clickable Team"
 LABEL image_version="2"
 
 # Disable problematic lzma compression - https://blog.packagecloud.io/eng/2016/03/21/apt-hash-sum-mismatch/

@@ -1,5 +1,5 @@
 FROM clickable/ubuntu-sdk:16.04-amd64
-LABEL maintainer="Brian Douglass"
+LABEL maintainer="Clickable Team"
 LABEL Modified by Lionel Duboeuf
 
 COPY libqbscore1.10.equivs-control /tmp/libqbscore1.10.equivs-control
