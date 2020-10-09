@@ -1,6 +1,6 @@
 FROM nvidia/opengl:1.0-glvnd-runtime-ubuntu16.04 as nvidia
 FROM clickable/ubuntu-sdk:16.04-amd64
-LABEL maintainer="Brian Douglass"
+LABEL maintainer="Clickable Team"
 LABEL Modified by Lukas Baubkus
 
 RUN apt-get update && \
