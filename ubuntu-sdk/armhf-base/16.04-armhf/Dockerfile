@@ -2,6 +2,8 @@ FROM armhf/ubuntu:xenial
 LABEL maintainer="Clickable Team"
 LABEL image_version="2"
 
+COPY qemu-arm-static /usr/bin
+
 # Disable problematic lzma compression - https://blog.packagecloud.io/eng/2016/03/21/apt-hash-sum-mismatch/
 RUN echo 'Acquire::CompressionTypes::Order:: "gz";' > /etc/apt/apt.conf.d/99compression-workaround && \
     echo set debconf/frontend Noninteractive | debconf-communicate && \
