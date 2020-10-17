@@ -1,4 +1,4 @@
-FROM clickable/ubuntu-sdk:16.04-amd64
+FROM clickable/amd64-16.04-amd64
 LABEL maintainer="Clickable Team"
 LABEL Modified by Lionel Duboeuf
 
