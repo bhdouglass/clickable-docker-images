@@ -16,3 +16,5 @@ RUN apt-get install -y \
 COPY plugins.csv /tmp/plugins.csv
 COPY register_plugins.sh /tmp/register_plugins.sh
 RUN cd /tmp && chmod +x register_plugins.sh && ./register_plugins.sh
+#Workaround for missing top menu bar
+ENV QT_QPA_PLATFORMTHEME=
