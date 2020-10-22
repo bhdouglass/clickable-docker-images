@@ -6,15 +6,8 @@ ENV LANG=en_US.UTF-8 \
     LANGUAGE=en_US.UTF-8 \
     DEBIAN_FRONTEND=noninteractive
 
-RUN apt-get update && \
-    apt-get -y -f --no-install-recommends install gnupg ubuntu-keyring software-properties-common && \
-    add-apt-repository ppa:bhdouglass/clickable && \
-    apt-get update && \
-    apt-get install -y clickable locales-all && \
-    apt-get -y remove wget && \
-    apt-get -y autoremove && \
-    apt-get clean && \
-    rm -rf /var/lib/apt/lists/*
+ADD ./install.sh /tmp/install.sh
+RUN /tmp/install.sh && rm /tmp/install.sh
 
 ENV CLICKABLE_CONTAINER_MODE=1 \
     CLICKABLE_ARCH=arm64 \
