@@ -24,7 +24,7 @@ RUN echo "deb [arch=amd64] http://archive.ubuntu.com/ubuntu xenial main resticte
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
-    # Install dependencies
+# Install dependencies
 RUN apt-get update && \
     apt-get -y --no-install-recommends dist-upgrade && \
     apt-get clean && \
@@ -35,6 +35,7 @@ RUN apt-get update && \
         cmake \
         pkg-config \
         git \
+        g++ \
         libc-dev \
         libicu-dev \
         isc-dhcp-client \
@@ -114,7 +115,7 @@ RUN apt-get update && \
 # Go env vars
 ENV PATH=/usr/local/go/bin/:$PATH
 
-# Install go
+# Install Go
 RUN wget https://dl.google.com/go/go1.14.2.linux-amd64.tar.gz && \
     tar -xvf go*.linux-amd64.tar.gz && \
     mv go /usr/local && \
@@ -131,7 +132,6 @@ RUN mkdir -p opt/rust && \
     wget https://sh.rustup.rs -O rustup.sh && \
     bash rustup.sh -y --default-toolchain '1.44.1' && \
     rm rustup.sh && \
-    rustup target add armv7-unknown-linux-gnueabihf && \
     # Allow the default clickable user to update the registry as well as the git folder
     mkdir -p /opt/rust/cargo/registry && \
     chown -R 1000 /opt/rust/cargo/registry && \
