@@ -1,11 +1,10 @@
-FROM clickable/ubuntu-sdk:16.04-arm64
-LABEL maintainer="Brian Douglass"
+FROM clickable/amd64-16.04-amd64
+LABEL maintainer="Clickable Team"
 
-ENV LANG=en_US.UTF-8
-ENV LC_ALL=en_US.UTF-8
-ENV LANGUAGE=en_US.UTF-8
-
-ENV DEBIAN_FRONTEND noninteractive
+ENV LANG=en_US.UTF-8 \
+    LC_ALL=en_US.UTF-8 \
+    LANGUAGE=en_US.UTF-8 \
+    DEBIAN_FRONTEND=noninteractive
 
 RUN apt-get update && \
     apt-get -y -f --no-install-recommends install gnupg ubuntu-keyring software-properties-common && \
@@ -17,6 +16,6 @@ RUN apt-get update && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
-ENV CLICKABLE_CONTAINER_MODE=1
-ENV CLICKABLE_ARCH=arm64
-ENV CLICKABLE_NON_INTERACTIVE=1
+ENV CLICKABLE_CONTAINER_MODE=1 \
+    CLICKABLE_ARCH=arm64 \
+    CLICKABLE_NON_INTERACTIVE=1
