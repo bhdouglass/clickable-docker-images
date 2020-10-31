@@ -1,4 +1,4 @@
-FROM clickable/amd64-16.04-amd64
+FROM clickable/amd64-16.04-armhf
 LABEL maintainer="Clickable Team"
 
 ENV LANG=en_US.UTF-8 \
