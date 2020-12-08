@@ -105,8 +105,6 @@ RUN mkdir -p opt/rust && \
 
 # Symlinks to make Rust and Go bindings find Qt includes
 RUN ln -s /usr/include/aarch64-linux-gnu/qt5/QtCore/ /usr/include/QtCore
-# Fix default qmake
-
 # Fix default qmake (suprisingly this works for arm64, too)
 RUN ln -s $(which qt5-qmake-arm-linux-gnueabihf) /usr/local/bin/qmake
 
