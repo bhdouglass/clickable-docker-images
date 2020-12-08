@@ -1,22 +1,10 @@
-FROM nvidia/opengl:1.0-glvnd-runtime-ubuntu16.04 as nvidia
-FROM clickable/amd64-16.04-amd64:16.04.4
-LABEL maintainer="Clickable Team"
-LABEL Modified by Lukas Baubkus
+FROM clickable/amd64-16.04-amd64-nvidia:16.04.3
 
-RUN apt-get update && \
-    apt-get install -y --no-install-recommends --force-yes \
-        libxau6 \
-        libxdmcp6 \
-        libxcb1 \
-        libxext6 \
-        libx11-6 \
-        mesa-utils \
-        xauth \
-        mesa-utils && \
+# Upgrade Qt to 5.12
+RUN echo "deb http://repo.ubports.com xenial_-_qt-5-12 main" >> /etc/apt/sources.list && \
+    apt-get update && \
+    apt-get dist-upgrade -y && \
+    # Cleanup
+    apt-get -y autoremove && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
-
-COPY --from=nvidia /usr/local /usr/local
-COPY --from=nvidia /etc/ld.so.conf.d/glvnd.conf /etc/ld.so.conf.d/glvnd.conf
-
-ENV NVIDIA_VISIBLE_DEVICES=all NVIDIA_DRIVER_CAPABILITIES=all LANG=C.UTF-8
