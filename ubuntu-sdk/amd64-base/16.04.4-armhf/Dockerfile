@@ -5,7 +5,14 @@ RUN echo "deb http://repo.ubports.com xenial_-_qt-5-12 main" >> /etc/apt/sources
     apt-get update && \
     apt-get dist-upgrade -y && \
     # Cleanup
-    apt-get -y remove qt5-qmake-arm-linux-gnueabihf && \
+    apt-get -y remove \
+    	qt5-qmake-arm-linux-gnueabihf \
+	qtdeclarative5-folderlistmodel-plugin:armhf \
+	qtdeclarative5-localstorage-plugin:armhf \
+	qtdeclarative5-particles-plugin:armhf \
+	qtdeclarative5-qtquick2-plugin:armhf \
+	qtdeclarative5-window-plugin:armhf \
+	qtdeclarative5-xmllistmodel-plugin:armhf && \
     apt-get -y autoremove && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
