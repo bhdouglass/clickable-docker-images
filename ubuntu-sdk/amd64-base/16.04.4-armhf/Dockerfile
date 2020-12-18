@@ -17,4 +17,6 @@ RUN echo "deb http://repo.ubports.com xenial_-_qt-5-12 main" >> /etc/apt/sources
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
+RUN ln -sf /usr/lib/arm-linux-gnueabihf/qt5/bin/qmake /usr/local/bin/qmake
+
 ENV DEB_BUILD_MULTIARCH=.
