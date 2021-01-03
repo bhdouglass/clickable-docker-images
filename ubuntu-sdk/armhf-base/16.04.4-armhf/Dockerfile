@@ -6,7 +6,6 @@ RUN echo "deb http://repo.ubports.com xenial_-_qt-5-12 main" >> /etc/apt/sources
     apt-get dist-upgrade -y && \
     # Cleanup
     apt-get -y remove \
-    	qt5-qmake-arm-linux-gnueabihf \
 	qtdeclarative5-folderlistmodel-plugin \
 	qtdeclarative5-localstorage-plugin \
 	qtdeclarative5-particles-plugin \
