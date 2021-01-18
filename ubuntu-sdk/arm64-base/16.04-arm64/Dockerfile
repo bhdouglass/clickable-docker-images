@@ -1,6 +1,6 @@
 FROM arm64v8/ubuntu:xenial
 LABEL maintainer="Clickable Team"
-LABEL image_version="2"
+LABEL image_version="3"
 
 COPY qemu-aarch64-static /usr/bin
 
