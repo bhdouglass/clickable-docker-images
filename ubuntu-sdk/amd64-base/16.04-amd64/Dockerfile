@@ -73,7 +73,6 @@ RUN apt-get update && \
         qml-module-ofono \
         qml-module-morph-web \
         qml-module-qtquick-dialogs \
-        qml-module-qtquick-extras \
         libofono-qt-dev \
         libqofono-dev \
         telepathy-mission-control-5 \
