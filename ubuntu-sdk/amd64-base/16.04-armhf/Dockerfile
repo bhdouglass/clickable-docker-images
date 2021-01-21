@@ -83,7 +83,6 @@ ENV PATH=/usr/local/go/bin/:$PATH
 RUN wget https://dl.google.com/go/go1.14.2.linux-amd64.tar.gz && \
     tar -xvf go*.linux-amd64.tar.gz && \
     mv go /usr/local && \
-    ln -s /usr/include/arm-linux-gnueabihf/qt5/QtCore/5.9.5/QtCore /usr/include/ && \
     rm go*.linux-amd64.tar.gz
 
 # Rust env vars
@@ -116,7 +115,7 @@ RUN cp -a /usr/lib/arm-linux-gnueabihf/qt5/mkspecs/ubuntu-arm-gnueabihf-g++ \
 
 # QBS setup
 RUN qbs setup-toolchains --system --detect && \
-    qbs setup-qt --system /usr/local/bin/qmake qt5 && \
+    qbs setup-qt --system /usr/bin/qmake qt5 && \
     qbs config --system defaultProfile qt5 && \
     qbs config --system profiles.qt5.baseProfile arm-linux-gnueabihf-gcc-5
 
@@ -139,7 +138,7 @@ ENV DEB_BUILD_ARCH=amd64 \
     DEB_BUILD_GNU_CPU=x86_64 \
     DEB_BUILD_GNU_SYSTEM=linux-gnu \
     DEB_BUILD_GNU_TYPE=x86_64-linux-gnu \
-    DEB_BUILD_MULTIARCH=x86_64-linux-gnu \
+    DEB_BUILD_MULTIARCH=. \
     DEB_HOST_ARCH=armhf \
     DEB_HOST_ARCH_BITS=32 \
     DEB_HOST_ARCH_CPU=arm \
