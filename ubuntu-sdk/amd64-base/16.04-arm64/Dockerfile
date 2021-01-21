@@ -123,6 +123,9 @@ ADD ubuntu-click-tools.prf /usr/lib/aarch64-linux-gnu/qt5/mkspecs/features/ubunt
 # Add clickabe compatibility version file
 ADD image_version /image_version
 
+# Fix Rust and Go qmake access
+RUN ln -sf /usr/lib/aarch64-linux-gnu/qt5/bin/qmake /usr/local/bin/qmake
+
 # Generated from `dpkg-architecture -a arm64`
 ENV DEB_BUILD_ARCH=amd64 \
     DEB_BUILD_ARCH_BITS=64 \

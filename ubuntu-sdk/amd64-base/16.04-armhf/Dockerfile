@@ -129,6 +129,9 @@ ADD ubuntu-click-tools.prf /usr/lib/arm-linux-gnueabihf/qt5/mkspecs/features/ubu
 # Add clickabe compatibility version file
 ADD image_version /image_version
 
+# Fix Rust and Go qmake access
+RUN ln -sf /usr/lib/arm-linux-gnueabihf/qt5/bin/qmake /usr/local/bin/qmake
+
 # Generated from `dpkg-architecture -a armhf`
 ENV DEB_BUILD_ARCH=amd64 \
     DEB_BUILD_ARCH_BITS=64 \
