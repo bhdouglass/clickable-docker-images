@@ -1,6 +1,6 @@
 FROM armhf/ubuntu:xenial
 LABEL maintainer="Clickable Team"
-LABEL image_version="3"
+LABEL image_version="4"
 
 COPY qemu-arm-static /usr/bin
 
