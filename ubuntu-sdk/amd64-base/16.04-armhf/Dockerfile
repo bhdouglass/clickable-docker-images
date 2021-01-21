@@ -107,12 +107,6 @@ RUN ln -s /usr/include/arm-linux-gnueabihf/qt5/QtCore/ /usr/include/QtCore
 # Fix default qmake
 RUN ln -s $(which qt5-qmake-arm-linux-gnueabihf) /usr/local/bin/qmake
 
-# Ubuntu ships (in Xenial only) a qmake profile for armhf in qt5-qmake, but the
-# `ubuntu` prefix confuses QBS; let's rename it, while still keeping the old file
-# to avoid breaking older clickable releases:
-RUN cp -a /usr/lib/arm-linux-gnueabihf/qt5/mkspecs/ubuntu-arm-gnueabihf-g++ \
-       /usr/lib/arm-linux-gnueabihf/qt5/mkspecs/linux-arm-gnueabihf-g++
-
 # QBS setup
 RUN qbs setup-toolchains --system --detect && \
     qbs setup-qt --system /usr/bin/qmake qt5 && \
