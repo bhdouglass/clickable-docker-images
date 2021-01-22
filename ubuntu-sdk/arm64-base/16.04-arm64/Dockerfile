@@ -69,7 +69,6 @@ RUN apt-get update && \
 RUN wget https://dl.google.com/go/go1.14.2.linux-arm64.tar.gz && \
     tar -xvf go*.linux-arm64.tar.gz && \
     mv go /usr/local && \
-    ln -s /usr/include/aarch64-linux-gnu/qt5/QtCore/5.9.5/QtCore /usr/include/ && \
     rm go*.linux-arm64.tar.gz
 
 # Rust env vars
