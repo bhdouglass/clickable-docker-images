@@ -1,6 +1,6 @@
 FROM amd64/ubuntu:xenial
 LABEL maintainer="Clickable Team"
-LABEL image_version="2"
+LABEL image_version="3"
 
 # Disable problematic lzma compression - https://blog.packagecloud.io/eng/2016/03/21/apt-hash-sum-mismatch/
 RUN echo 'Acquire::CompressionTypes::Order:: "gz";' > /etc/apt/apt.conf.d/99compression-workaround && \
@@ -83,7 +83,6 @@ ENV PATH=/usr/local/go/bin/:$PATH
 RUN wget https://dl.google.com/go/go1.14.2.linux-amd64.tar.gz && \
     tar -xvf go*.linux-amd64.tar.gz && \
     mv go /usr/local && \
-    ln -s /usr/include/arm-linux-gnueabihf/qt5/QtCore/5.9.5/QtCore /usr/include/ && \
     rm go*.linux-amd64.tar.gz
 
 # Rust env vars
@@ -108,15 +107,9 @@ RUN ln -s /usr/include/arm-linux-gnueabihf/qt5/QtCore/ /usr/include/QtCore
 # Fix default qmake
 RUN ln -s $(which qt5-qmake-arm-linux-gnueabihf) /usr/local/bin/qmake
 
-# Ubuntu ships (in Xenial only) a qmake profile for armhf in qt5-qmake, but the
-# `ubuntu` prefix confuses QBS; let's rename it, while still keeping the old file
-# to avoid breaking older clickable releases:
-RUN cp -a /usr/lib/arm-linux-gnueabihf/qt5/mkspecs/ubuntu-arm-gnueabihf-g++ \
-       /usr/lib/arm-linux-gnueabihf/qt5/mkspecs/linux-arm-gnueabihf-g++
-
 # QBS setup
 RUN qbs setup-toolchains --system --detect && \
-    qbs setup-qt --system /usr/local/bin/qmake qt5 && \
+    qbs setup-qt --system /usr/bin/qmake qt5 && \
     qbs config --system defaultProfile qt5 && \
     qbs config --system profiles.qt5.baseProfile arm-linux-gnueabihf-gcc-5
 
@@ -130,6 +123,9 @@ ADD ubuntu-click-tools.prf /usr/lib/arm-linux-gnueabihf/qt5/mkspecs/features/ubu
 # Add clickabe compatibility version file
 ADD image_version /image_version
 
+# Fix Rust and Go qmake access
+RUN ln -sf /usr/lib/arm-linux-gnueabihf/qt5/bin/qmake /usr/local/bin/qmake
+
 # Generated from `dpkg-architecture -a armhf`
 ENV DEB_BUILD_ARCH=amd64 \
     DEB_BUILD_ARCH_BITS=64 \
@@ -139,7 +135,7 @@ ENV DEB_BUILD_ARCH=amd64 \
     DEB_BUILD_GNU_CPU=x86_64 \
     DEB_BUILD_GNU_SYSTEM=linux-gnu \
     DEB_BUILD_GNU_TYPE=x86_64-linux-gnu \
-    DEB_BUILD_MULTIARCH=x86_64-linux-gnu \
+    DEB_BUILD_MULTIARCH=. \
     DEB_HOST_ARCH=armhf \
     DEB_HOST_ARCH_BITS=32 \
     DEB_HOST_ARCH_CPU=arm \

@@ -1,6 +1,6 @@
 FROM amd64/ubuntu:xenial
 LABEL maintainer="Clickable Team"
-LABEL image_version="2"
+LABEL image_version="3"
 
 # Disable problematic lzma compression - https://blog.packagecloud.io/eng/2016/03/21/apt-hash-sum-mismatch/
 RUN echo 'Acquire::CompressionTypes::Order:: "gz";' > /etc/apt/apt.conf.d/99compression-workaround && \
@@ -83,7 +83,6 @@ ENV PATH=/usr/local/go/bin/:$PATH
 RUN wget https://dl.google.com/go/go1.14.2.linux-amd64.tar.gz && \
     tar -xvf go*.linux-amd64.tar.gz && \
     mv go /usr/local && \
-    ln -s /usr/include/aarch64-linux-gnu/qt5/QtCore/5.9.5/QtCore /usr/include/ && \
     rm go*.linux-amd64.tar.gz
 
 # Rust env vars
@@ -110,7 +109,7 @@ RUN ln -s $(which qt5-qmake-arm-linux-gnueabihf) /usr/local/bin/qmake
 
 # QBS setup
 RUN qbs setup-toolchains --system --detect && \
-    qbs setup-qt --system /usr/local/bin/qmake qt5 && \
+    qbs setup-qt --system /usr/bin/qmake qt5 && \
     qbs config --system defaultProfile qt5 && \
     qbs config --system profiles.qt5.baseProfile aarch64-linux-gnu-gcc-5
 
@@ -124,6 +123,9 @@ ADD ubuntu-click-tools.prf /usr/lib/aarch64-linux-gnu/qt5/mkspecs/features/ubunt
 # Add clickabe compatibility version file
 ADD image_version /image_version
 
+# Fix Rust and Go qmake access
+RUN ln -sf /usr/lib/aarch64-linux-gnu/qt5/bin/qmake /usr/local/bin/qmake
+
 # Generated from `dpkg-architecture -a arm64`
 ENV DEB_BUILD_ARCH=amd64 \
     DEB_BUILD_ARCH_BITS=64 \
@@ -133,7 +135,7 @@ ENV DEB_BUILD_ARCH=amd64 \
     DEB_BUILD_GNU_CPU=x86_64 \
     DEB_BUILD_GNU_SYSTEM=linux-gnu \
     DEB_BUILD_GNU_TYPE=x86_64-linux-gnu \
-    DEB_BUILD_MULTIARCH=x86_64-linux-gnu \
+    DEB_BUILD_MULTIARCH=. \
     DEB_HOST_ARCH=arm64 \
     DEB_HOST_ARCH_BITS=64 \
     DEB_HOST_ARCH_CPU=arm64 \

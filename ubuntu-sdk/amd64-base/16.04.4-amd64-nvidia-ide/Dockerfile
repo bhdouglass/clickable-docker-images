@@ -1,10 +1,2 @@
 FROM clickable/amd64-16.04-amd64-nvidia-ide
-
-# Upgrade Qt to 5.12
-RUN echo "deb http://repo.ubports.com xenial_-_qt-5-12 main" >> /etc/apt/sources.list && \
-    apt-get update && \
-    apt-get dist-upgrade -y && \
-    # Cleanup
-    apt-get -y autoremove && \
-    apt-get clean && \
-    rm -rf /var/lib/apt/lists/*
+LABEL image_version="3"
