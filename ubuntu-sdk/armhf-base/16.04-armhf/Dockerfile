@@ -72,7 +72,6 @@ ENV PATH=/usr/local/go/bin/:$PATH
 RUN wget https://dl.google.com/go/go1.14.2.linux-armv6l.tar.gz && \
     tar -xvf go*.linux-armv6l.tar.gz && \
     mv go /usr/local && \
-    ln -s /usr/include/arm-linux-gnueabihf/qt5/QtCore/5.9.5/QtCore /usr/include/ && \
     rm go*.linux-armv6l.tar.gz
 
 # Rust env vars
