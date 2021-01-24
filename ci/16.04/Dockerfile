@@ -1,4 +1,8 @@
-FROM clickable/amd64-16.04-amd64:16.04.4
+ARG ARCH
+FROM clickable/amd64-16.04-$ARCH
+
+# Needs to be defined before and after because they are different stages
+ARG ARCH
 LABEL maintainer="Clickable Team"
 
 ENV LANG=en_US.UTF-8 \
@@ -11,11 +15,11 @@ RUN apt-get update && \
     add-apt-repository ppa:bhdouglass/clickable && \
     apt-get update && \
     apt-get install -y clickable locales-all && \
-    apt-get -y remove wget && \
     apt-get -y autoremove && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
+
 ENV CLICKABLE_CONTAINER_MODE=1 \
-    CLICKABLE_ARCH=amd64 \
+    CLICKABLE_ARCH=$ARCH \
     CLICKABLE_NON_INTERACTIVE=1
