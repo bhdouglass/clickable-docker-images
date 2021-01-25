@@ -1,5 +1,9 @@
+ARG HOST_ARCH
+ARG IDE
+
 FROM nvidia/opengl:1.0-glvnd-runtime-ubuntu16.04 as nvidia
-FROM clickable/amd64-16.04-amd64
+FROM clickable/$HOST_ARCH-16.04-$HOST_ARCH$IDE
+
 LABEL maintainer="Clickable Team"
 LABEL Modified by Lukas Baubkus
 

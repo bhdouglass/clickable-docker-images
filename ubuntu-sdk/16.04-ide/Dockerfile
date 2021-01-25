@@ -1,4 +1,6 @@
-FROM clickable/amd64-16.04-amd64
+ARG HOST_ARCH
+FROM clickable/$HOST_ARCH-16.04-$HOST_ARCH
+
 LABEL maintainer="Clickable Team"
 LABEL Modified by Lionel Duboeuf
 

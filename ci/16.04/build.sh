@@ -1,6 +1,6 @@
 #!/bin/bash
 
-ARCH=${ARCH:-armhf}
+TARGET_ARCH=${TARGET_ARCH:-armhf}
 TAG=${TAG:-latest}
 
-docker build -t clickable/ci-16.04-$ARCH:$TAG --build-arg ARCH=$ARCH . $@
+docker build -t clickable/ci-16.04-$TARGET_ARCH:$TAG --build-arg TARGET_ARCH=$TARGET_ARCH . $@

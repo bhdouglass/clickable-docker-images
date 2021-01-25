@@ -1,8 +1,8 @@
-ARG ARCH
-FROM clickable/amd64-16.04-$ARCH
+ARG TARGET_ARCH
+FROM clickable/amd64-16.04-$TARGET_ARCH
 
 # Needs to be defined before and after because they are different stages
-ARG ARCH
+ARG TARGET_ARCH
 LABEL maintainer="Clickable Team"
 
 ENV LANG=en_US.UTF-8 \
@@ -21,5 +21,5 @@ RUN apt-get update && \
 
 
 ENV CLICKABLE_CONTAINER_MODE=1 \
-    CLICKABLE_ARCH=$ARCH \
+    CLICKABLE_ARCH=$TARGET_ARCH \
     CLICKABLE_NON_INTERACTIVE=1

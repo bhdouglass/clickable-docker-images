@@ -1,8 +1,19 @@
-FROM arm64v8/ubuntu:xenial
-LABEL maintainer="Clickable Team"
-LABEL image_version="3"
+ARG HOST_ARCH_BASE
+FROM $HOST_ARCH_BASE/ubuntu:xenial
 
-COPY qemu-aarch64-static /usr/bin
+ARG HOST_ARCH
+ARG HOST_ARCH_TRIPLET
+ARG HOST_ARCH_BASE
+ARG QEMU_USER_STATIC_ARCH
+ARG DEB_URL
+ARG QBS_SUPPORT
+ARG GO_ARCH
+ARG IMAGE_VERSION=3
+
+LABEL maintainer="Clickable Team"
+LABEL image_version="$IMAGE_VERSION"
+
+COPY qemu-$QEMU_USER_STATIC_ARCH-static /usr/bin
 
 # Disable problematic lzma compression - https://blog.packagecloud.io/eng/2016/03/21/apt-hash-sum-mismatch/
 RUN echo 'Acquire::CompressionTypes::Order:: "gz";' > /etc/apt/apt.conf.d/99compression-workaround && \
@@ -10,9 +21,9 @@ RUN echo 'Acquire::CompressionTypes::Order:: "gz";' > /etc/apt/apt.conf.d/99comp
     echo set debconf/priority critical | debconf-communicate
 
 # Add ubport repos
-RUN echo "deb [arch=arm64] http://ports.ubuntu.com/ubuntu-ports xenial main resticted multiverse universe" > /etc/apt/sources.list && \
-    echo "deb [arch=arm64] http://ports.ubuntu.com/ubuntu-ports xenial-updates main resticted multiverse universe" >> /etc/apt/sources.list && \
-    echo "deb [arch=arm64] http://ports.ubuntu.com/ubuntu-ports xenial-security main restricted multiverse universe" >> /etc/apt/sources.list && \
+RUN echo "deb [arch=$HOST_ARCH] $DEB_URL xenial main resticted multiverse universe" > /etc/apt/sources.list && \
+    echo "deb [arch=$HOST_ARCH] $DEB_URL xenial-updates main resticted multiverse universe" >> /etc/apt/sources.list && \
+    echo "deb [arch=$HOST_ARCH] $DEB_URL xenial-security main restricted multiverse universe" >> /etc/apt/sources.list && \
     # Add other repos
     apt-get update && \
     apt-get -y -f --no-install-recommends install gnupg ubuntu-keyring software-properties-common wget && \
@@ -42,7 +53,7 @@ RUN apt-get update && \
         libicu-dev \
         isc-dhcp-client \
         nodejs \
-        qbs \
+        $QBS_SUPPORT \
         qtbase5-private-dev \
         qtdeclarative5-private-dev \
         qtfeedback5-dev \
@@ -76,7 +87,6 @@ RUN apt-get update && \
         qml-module-ofono \
         qml-module-morph-web \
         qml-module-qtquick-dialogs \
-        qml-module-qtquick-extras \
         libofono-qt-dev \
         libqofono-dev \
         telepathy-mission-control-5 \
@@ -118,10 +128,11 @@ RUN apt-get update && \
 ENV PATH=/usr/local/go/bin/:$PATH
 
 # Install Go
-RUN wget https://dl.google.com/go/go1.14.2.linux-arm64.tar.gz && \
-    tar -xvf go*.linux-arm64.tar.gz && \
+RUN wget https://dl.google.com/go/go1.14.2.linux-$GO_ARCH.tar.gz && \
+    tar -xvf go*.linux-$GO_ARCH.tar.gz && \
     mv go /usr/local && \
-    rm go*.linux-arm64.tar.gz
+    ln -s /usr/include/$HOST_ARCH_TRIPLET/qt5/QtCore/5.9.5/QtCore /usr/include/ && \
+    rm go*.linux-$GO_ARCH.tar.gz
 
 # Rust env vars
 ENV CARGO_HOME=/opt/rust/cargo \
@@ -140,23 +151,25 @@ RUN mkdir -p opt/rust && \
     chown -R 1000 /opt/rust/cargo/git
 
 # QBS setup
-RUN qbs setup-toolchains --system --detect && \
-    qbs setup-qt --system /usr/bin/qmake qt5 && \
-    qbs config --system defaultProfile qt5 && \
-    qbs config --system profiles.qt5.baseProfile gcc
+RUN if [ $QBS_SUPPORT == "qbs" ]; then \
+        qbs setup-toolchains --system --detect && \
+        qbs setup-qt --system /usr/bin/qmake qt5 && \
+        qbs config --system defaultProfile qt5 && \
+        qbs config --system profiles.qt5.baseProfile gcc; \
+    fi
 
 # Add user phablet
 RUN groupadd -r phablet -g 1000 && useradd -u 1000 -r -g phablet -m -d /home/phablet -s /sbin/nologin -c "phablet user"  phablet && \
     chmod 755 /home/phablet
 
 # TODO this probably needs to be fixed upstream
-ADD ubuntu-click-tools.prf /usr/lib/aarch64-linux-gnu/qt5/mkspecs/features/ubuntu-click-tools.prf
+ADD ubuntu-click-tools.prf /usr/lib/$HOST_ARCH_TRIPLET/qt5/mkspecs/features/ubuntu-click-tools.prf
 
 ADD xvfb-startup.sh /usr/local/bin/xvfb-startup
 RUN chmod +x /usr/local/bin/xvfb-startup
 
 # Add clickabe compatibility version file
-ADD image_version /image_version
+RUN echo $IMAGE_VERSION > /image_version
 
 ENV CGO_ENABLED=1
 ENV QT_QPA_PLATFORMTHEME=ubuntuappmenu
