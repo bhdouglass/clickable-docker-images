@@ -8,6 +8,7 @@ pin () {
     for PACKAGE in "$@"
     do
         echo "Package: $PACKAGE\nPin: version $VERSION\nPin-Priority: 1001\n"
+        echo "Package: $PACKAGE:$TARGET_ARCH\nPin: version $VERSION\nPin-Priority: 1001\n"
     done
 }
 
@@ -151,8 +152,66 @@ pin '0.9~0ubports1+0~20191217001219*' \
     libonline-accounts-plugin\* \
     qml-module-ubuntu-onlineaccounts-client \
 
+pin '0.65.1+ubports+0~20191223175818.11*' \
+    qtubuntu-android \
+    qtubuntu-appmenutheme \
+    qtubuntu-desktop \
+
+pin '0.4~0ubports1+0~20201112195138.49*' \
+    qtdeclarative5-ubuntu-addressbook0.1 \
+    qtdeclarative5-ubuntu-contacts0.1 \
+
+pin '1.19.8-ubports2' \
+    liboxideqt\* \
+    oxideqt-\* \
+
+pin '0.24+ubports+0~20201218222414.37*' \
+    morph-browser \
+    morph-webapp-container \
+    qml-module-morph-web\* \
+    qml-module-ubuntu-web\* \
+    qtdeclarative5-ubuntu-web-plugin\* \
+
+pin '0.2+ubports+0~20200715204844*' \
+    '*gsettings-qt*' \
+    qtdeclarative5-gsettings1.0 \
+
+pin '0.4+0ubports3+0~20201130183009.16*' \
+    account-plugin-irc-unity8 \
+    account-plugin-sip-unity8 \
+    qtdeclarative5-ubuntu-telephony\* \
+    telephony-service \
+
+pin '0.8.1+ubports1+0~20201222151254*' \
+    '*connectivity-qt1*' \
+    qml-module-ubuntu-connectivity \
+
+pin '0.3+ubports+0~20201007205921.11*' \
+    '*content-hub*' \
+    qtdeclarative5-ubuntu-content1 \
+
+pin '1.4+ubports+0~20201109171628.4*' \
+    libubuntu-download-manager-\* \
+    libubuntu-upload-manager-\* \
+    libudm-common\* \
+    libudm-priv-common1 \
+    qtdeclarative5-ubuntu-download-manager0.1 \
+    ubuntu-download-manager \
+    ubuntu-upload-manager \
+
+pin '0.7+ubports+0~20180109155305.3*' \
+    accounts-qml-module-doc \
+    qml-module-ubuntu-onlineaccounts \
+    qtdeclarative5-accounts-plugin \
+
+pin '0.2+ubports+0~20180625192919.3*' \
+    qtdeclarative5-ubuntu-push-plugin \
+    ubuntu-push-qml \
+
 pin '0.20180223ubuntu1+0~20200928182259.3*' qml-module-qtquick-controls2-suru
-pin '0.8.1+ubports1+0~20201222151254*' '*connectivity-qt1*'
 pin '5.52*' '*kirigami2*'
 pin '1.5.3*' '*pyotherside*'
 pin '1.433xenial1ubports25*' ubuntu-sdk\*
+pin '0.100+15.04+ubports+0~20201222150932.39*' '*ubuntu-keyboard*'
+pin '1.1.2+ubports+0~20200517193233.3*' '*usermetrics*'
+pin '1.7.2+ubports+0~20201216165219.28*' '*libertine*'
