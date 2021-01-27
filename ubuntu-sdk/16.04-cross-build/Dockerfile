@@ -123,8 +123,8 @@ RUN qbs setup-toolchains --system --detect && \
     qbs config --system profiles.qt5.baseProfile $TARGET_ARCH_TRIPLET-gcc-5
 
 # TODO see if there is a better location for this
-ADD qt-$ARCH.conf /usr/bin/qt.conf
-ADD qt-$ARCH.conf /usr/local/bin/qt.conf
+ADD qt-$TARGET_ARCH.conf /usr/bin/qt.conf
+ADD qt-$TARGET_ARCH.conf /usr/local/bin/qt.conf
 
 # TODO this probably needs to be fixed upstream
 ADD ubuntu-click-tools.prf /usr/lib/$TARGET_ARCH_TRIPLET/qt5/mkspecs/features/ubuntu-click-tools.prf
