@@ -208,6 +208,11 @@ pin '0.2+ubports+0~20180625192919.3*' \
     qtdeclarative5-ubuntu-push-plugin \
     ubuntu-push-qml \
 
+pin '0.3~0ubports4+0~20201008192646.14*' \
+    history-service\* \
+    libhistoryservice\* \
+    qtdeclarative5-ubuntu-history0.1 \
+
 pin '0.20180223ubuntu1+0~20200928182259.3*' qml-module-qtquick-controls2-suru
 pin '5.52*' '*kirigami2*'
 pin '1.5.3*' '*pyotherside*'

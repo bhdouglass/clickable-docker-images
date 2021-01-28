@@ -151,6 +151,11 @@ pin '0.9~0ubports1+0~20191217001219*' \
     libonline-accounts-plugin\* \
     qml-module-ubuntu-onlineaccounts-client \
 
+pin '0.3~0ubports4+0~20201008192646.14*' \
+    history-service\* \
+    libhistoryservice\* \
+    qtdeclarative5-ubuntu-history0.1 \
+
 pin '0.20180223ubuntu1+0~20200928182259.3*' qml-module-qtquick-controls2-suru
 pin '0.8.1+ubports1+0~20201222151254*' '*connectivity-qt1*'
 pin '5.52*' '*kirigami2*'
