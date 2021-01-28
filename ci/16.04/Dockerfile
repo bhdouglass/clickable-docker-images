@@ -1,5 +1,5 @@
 ARG TARGET_ARCH
-FROM clickable/amd64-16.04-$TARGET_ARCH
+FROM clickable/amd64-16.04-$TARGET_ARCH:$TARGET_TAG
 
 # Needs to be defined before and after because they are different stages
 ARG TARGET_ARCH

@@ -90,7 +90,7 @@ ENV PATH=/usr/local/go/bin/:$PATH
 
 # Install Go
 RUN wget https://dl.google.com/go/go1.14.2.linux-$HOST_ARCH.tar.gz && \
-    tar -xvf go*.linux-$HOST_ARCH.tar.gz && \
+    tar -xf go*.linux-$HOST_ARCH.tar.gz && \
     mv go /usr/local && \
     rm go*.linux-$HOST_ARCH.tar.gz
 

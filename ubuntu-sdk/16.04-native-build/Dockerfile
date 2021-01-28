@@ -129,7 +129,7 @@ ENV PATH=/usr/local/go/bin/:$PATH
 
 # Install Go
 RUN wget https://dl.google.com/go/go1.14.2.linux-$GO_ARCH.tar.gz && \
-    tar -xvf go*.linux-$GO_ARCH.tar.gz && \
+    tar -xf go*.linux-$GO_ARCH.tar.gz && \
     mv go /usr/local && \
     ln -s /usr/include/$HOST_ARCH_TRIPLET/qt5/QtCore/5.9.5/QtCore /usr/include/ && \
     rm go*.linux-$GO_ARCH.tar.gz
