@@ -9,6 +9,9 @@ elif [ $HOST_ARCH = "arm64" ]; then
     QEMU_USER_STATIC_ARCH=aarch64
 elif [ $HOST_ARCH = "amd64" ]; then
     QEMU_USER_STATIC_ARCH=x86_64
+else
+    echo "Unsupported HOST_ARCH: $HOST_ARCH"
+    exit 1
 fi
 
 # Reference: https://stackoverflow.com/a/54595564/6640061

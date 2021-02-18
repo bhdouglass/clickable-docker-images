@@ -24,6 +24,9 @@ elif [ $HOST_ARCH = "amd64" ]; then
     DEB_URL=http://archive.ubuntu.com/ubuntu
     QBS_SUPPORT=qbs
     GO_ARCH=amd64
+else
+    echo "Unsupported HOST_ARCH: $HOST_ARCH"
+    exit 1
 fi
 
 # Reference: https://stackoverflow.com/a/54595564/6640061

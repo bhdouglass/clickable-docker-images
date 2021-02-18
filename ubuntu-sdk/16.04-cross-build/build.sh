@@ -14,6 +14,9 @@ elif [ $TARGET_ARCH = "arm64" ]; then
     RUST_ARCH=aarch64-unknown-linux-gnu
     TARGET_CPU=arm64
     TARGET_ARCH_BITS=64
+else
+    echo "Unsupported TARGET_ARCH: $TARGET_ARCH"
+    exit 1
 fi
 
 docker build -t clickable/$HOST_ARCH-16.04-$TARGET_ARCH:$TAG \
