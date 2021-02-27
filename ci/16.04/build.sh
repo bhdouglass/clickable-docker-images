@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -Eeou pipefail
+
 TARGET_ARCH=${TARGET_ARCH:-armhf}
 TAG=${TAG:-latest}
 TARGET_TAG=${TARGET_TAG:-latest}

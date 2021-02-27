@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -Eeou pipefail
+
 HOST_ARCH=${HOST_ARCH:-amd64}
 TARGET_ARCH=${TARGET_ARCH:-armhf}
 TAG=${TAG:-16.04.4-qt5.9}

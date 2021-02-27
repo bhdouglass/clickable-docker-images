@@ -1,6 +1,6 @@
 ARG HOST_ARCH
 
-FROM clickable/$HOST_ARCH-16.04-$HOST_ARCH
+FROM clickable/$HOST_ARCH-16.04-$HOST_ARCH:16.04.5
 
 # Pin Qt 5.9 and packages depending on it
 COPY pin_qt_5.9.sh .
