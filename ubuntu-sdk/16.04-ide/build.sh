@@ -1,7 +1,5 @@
 #!/bin/bash
 
-set -eou pipefail
-
 HOST_ARCH=${HOST_ARCH:-amd64}
 TAG=${TAG:-latest}
 
