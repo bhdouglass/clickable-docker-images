@@ -78,8 +78,8 @@ armhf-16.04-armhf:
     - if: $CI_COMMIT_TAG
   script:
     - cd ubuntu-sdk/16.04-native-build
-    - HOST_ARCH=arm64 TAG=$LATEST_TAG sh ./build.sh
-    - HOST_ARCH=arm64 TAG=$VERSION_TAG"16.04.5" sh ./build.sh
+    - HOST_ARCH=armhf TAG=$LATEST_TAG sh ./build.sh
+    - HOST_ARCH=armhf TAG=$VERSION_TAG"16.04.5" sh ./build.sh
     - docker push clickable/armhf-16.04-armhf:$LATEST_TAG
     - docker push clickable/armhf-16.04-armhf:$VERSION_TAG"16.04.5"
 
@@ -101,7 +101,7 @@ amd64-16.04-amd64-ide:
     - docker push clickable/amd64-16.04-amd64-ide:$VERSION_TAG"16.04.5"
     - docker push clickable/amd64-16.04-amd64-ide:$VERSION_TAG"16.04.4-qt5.9"
 
-amd64-16.04-amd64-nvidia-ide:
+amd64-16.04-amd64-nvidia:
   stage: secondary-images
   needs: ["amd64-16.04-amd64"]
   rules:
@@ -112,11 +112,11 @@ amd64-16.04-amd64-nvidia-ide:
     - HOST_ARCH=amd64 TAG=$LATEST_TAG sh ./build.sh
     - HOST_ARCH=amd64 TAG=$VERSION_TAG"16.04.5" sh ./build.sh
     - HOST_ARCH=amd64 TAG=$VERSION_TAG"16.04.4-qt5.9" sh ./build.sh
-    - docker push clickable/amd64-16.04-amd64-nvidia-ide:$LATEST_TAG
-    - docker push clickable/amd64-16.04-amd64-nvidia-ide:$VERSION_TAG"16.04.5"
-    - docker push clickable/amd64-16.04-amd64-nvidia-ide:$VERSION_TAG"16.04.4-qt5.9"
+    - docker push clickable/amd64-16.04-amd64-nvidia:$LATEST_TAG
+    - docker push clickable/amd64-16.04-amd64-nvidia:$VERSION_TAG"16.04.5"
+    - docker push clickable/amd64-16.04-amd64-nvidia:$VERSION_TAG"16.04.4-qt5.9"
 
-amd64-16.04-amd64-nvidia:
+amd64-16.04-amd64-nvidia-ide:
   stage: secondary-images
   needs: ["amd64-16.04-amd64"]
   rules:
@@ -127,9 +127,9 @@ amd64-16.04-amd64-nvidia:
     - HOST_ARCH=amd64 IDE=-ide TAG=$LATEST_TAG sh ./build.sh
     - HOST_ARCH=amd64 IDE=-ide TAG=$VERSION_TAG"16.04.5" sh ./build.sh
     - HOST_ARCH=amd64 IDE=-ide TAG=$VERSION_TAG"16.04.4-qt5.9" sh ./build.sh
-    - docker push clickable/amd64-16.04-amd64-nvidia:$LATEST_TAG
-    - docker push clickable/amd64-16.04-amd64-nvidia:$VERSION_TAG"16.04.5"
-    - docker push clickable/amd64-16.04-amd64-nvidia:$VERSION_TAG"16.04.4-qt5.9"
+    - docker push clickable/amd64-16.04-amd64-nvidia-ide:$LATEST_TAG
+    - docker push clickable/amd64-16.04-amd64-nvidia-ide:$VERSION_TAG"16.04.5"
+    - docker push clickable/amd64-16.04-amd64-nvidia-ide:$VERSION_TAG"16.04.4-qt5.9"
 
 
 # CI Images
