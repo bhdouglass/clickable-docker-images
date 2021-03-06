@@ -21,6 +21,14 @@ RUN apt-get update && \
         fakeroot \
         build-essential \
         devscripts \
+        python3-all \
+        python3-sphinx \
+        python3-sphinx-rtd-theme \
+        python3-mock \
+        python3-pytest \
+        python3-pytest-mock \
+        python3-pytest-cov \
+        python3-freezegun \
         && \
     apt-get -y autoremove && \
     apt-get clean && \

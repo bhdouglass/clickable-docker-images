@@ -1,6 +1,6 @@
 #!/bin/bash
 
-set -Eeou pipefail
+set -eou pipefail
 
 HOST_ARCH=${HOST_ARCH:-amd64}
 TAG=${TAG:-16.04.4-qt5.9}
