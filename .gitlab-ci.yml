@@ -142,7 +142,7 @@ ci-16.04-amd64:
     - if: $CI_COMMIT_TAG
   script:
     - cd ci/16.04
-    - TARGET_ARCH=amd64 TAG=$LATEST_TAG sh ./build.sh
+    - TARGET_ARCH=amd64 TAG=$LATEST_TAG TARGET_TAG=$VERSION_TAG"16.04.4-qt5.9" sh ./build.sh
     - TARGET_ARCH=amd64 TAG=$VERSION_TAG"16.04.5" sh ./build.sh
     - docker push clickable/ci-16.04-amd64:$LATEST_TAG
     - docker push clickable/ci-16.04-amd64:$VERSION_TAG"16.04.5"
@@ -155,7 +155,7 @@ ci-16.04-armhf:
     - if: $CI_COMMIT_TAG
   script:
     - cd ci/16.04
-    - TARGET_ARCH=armhf TAG=$LATEST_TAG sh ./build.sh
+    - TARGET_ARCH=armhf TAG=$LATEST_TAG TARGET_TAG=$VERSION_TAG"16.04.4-qt5.9" sh ./build.sh
     - TARGET_ARCH=armhf TAG=$VERSION_TAG"16.04.5" sh ./build.sh
     - docker push clickable/ci-16.04-armhf:$LATEST_TAG
     - docker push clickable/ci-16.04-armhf:$VERSION_TAG"16.04.5"
@@ -168,7 +168,7 @@ ci-16.04-arm64:
     - if: $CI_COMMIT_TAG
   script:
     - cd ci/16.04
-    - TARGET_ARCH=arm64 TAG=$LATEST_TAG sh ./build.sh
+    - TARGET_ARCH=arm64 TAG=$LATEST_TAG TARGET_TAG=$VERSION_TAG"16.04.4-qt5.9" sh ./build.sh
     - TARGET_ARCH=arm64 TAG=$VERSION_TAG"16.04.5" sh ./build.sh
     - docker push clickable/ci-16.04-arm64:$LATEST_TAG
     - docker push clickable/ci-16.04-arm64:$VERSION_TAG"16.04.5"
