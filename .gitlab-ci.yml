@@ -96,10 +96,8 @@ amd64-16.04-amd64-ide:
     - cd ubuntu-sdk/16.04-ide
     - HOST_ARCH=amd64 TAG=$LATEST_TAG sh ./build.sh
     - HOST_ARCH=amd64 TAG=$VERSION_TAG"16.04.5" sh ./build.sh
-    - HOST_ARCH=amd64 TAG=$VERSION_TAG"16.04.4-qt5.9" sh ./build.sh
     - docker push clickable/amd64-16.04-amd64-ide:$LATEST_TAG
     - docker push clickable/amd64-16.04-amd64-ide:$VERSION_TAG"16.04.5"
-    - docker push clickable/amd64-16.04-amd64-ide:$VERSION_TAG"16.04.4-qt5.9"
 
 amd64-16.04-amd64-nvidia:
   stage: secondary-images
@@ -111,10 +109,8 @@ amd64-16.04-amd64-nvidia:
     - cd ubuntu-sdk/16.04-nvidia
     - HOST_ARCH=amd64 TAG=$LATEST_TAG sh ./build.sh
     - HOST_ARCH=amd64 TAG=$VERSION_TAG"16.04.5" sh ./build.sh
-    - HOST_ARCH=amd64 TAG=$VERSION_TAG"16.04.4-qt5.9" sh ./build.sh
     - docker push clickable/amd64-16.04-amd64-nvidia:$LATEST_TAG
     - docker push clickable/amd64-16.04-amd64-nvidia:$VERSION_TAG"16.04.5"
-    - docker push clickable/amd64-16.04-amd64-nvidia:$VERSION_TAG"16.04.4-qt5.9"
 
 amd64-16.04-amd64-nvidia-ide:
   stage: secondary-images
@@ -126,10 +122,8 @@ amd64-16.04-amd64-nvidia-ide:
     - cd ubuntu-sdk/16.04-nvidia
     - HOST_ARCH=amd64 IDE=-ide TAG=$LATEST_TAG sh ./build.sh
     - HOST_ARCH=amd64 IDE=-ide TAG=$VERSION_TAG"16.04.5" sh ./build.sh
-    - HOST_ARCH=amd64 IDE=-ide TAG=$VERSION_TAG"16.04.4-qt5.9" sh ./build.sh
     - docker push clickable/amd64-16.04-amd64-nvidia-ide:$LATEST_TAG
     - docker push clickable/amd64-16.04-amd64-nvidia-ide:$VERSION_TAG"16.04.5"
-    - docker push clickable/amd64-16.04-amd64-nvidia-ide:$VERSION_TAG"16.04.4-qt5.9"
 
 
 # CI Images
@@ -172,101 +166,6 @@ ci-16.04-arm64:
     - TARGET_ARCH=arm64 TAG=$VERSION_TAG"16.04.5" sh ./build.sh
     - docker push clickable/ci-16.04-arm64:$LATEST_TAG
     - docker push clickable/ci-16.04-arm64:$VERSION_TAG"16.04.5"
-
-
-# Qt 5.9 Images
-
-amd64-16.04.4-armhf:
-  stage: secondary-images
-  needs: ["amd64-16.04-armhf"]
-  rules:
-    - if: '$CI_COMMIT_BRANCH == "master"'
-    - if: $CI_COMMIT_TAG
-  script:
-    - cd ubuntu-sdk/16.04.4-cross-build
-    - HOST_ARCH=amd64 TARGET_ARCH=armhf TAG=$VERSION_TAG"16.04.4-qt5.9" sh ./build.sh
-    - docker push clickable/amd64-16.04-armhf:$VERSION_TAG"16.04.4-qt5.9"
-
-
-amd64-16.04.4-arm64:
-  stage: secondary-images
-  needs: ["amd64-16.04-arm64"]
-  rules:
-    - if: '$CI_COMMIT_BRANCH == "master"'
-    - if: $CI_COMMIT_TAG
-  script:
-    - cd ubuntu-sdk/16.04.4-cross-build
-    - HOST_ARCH=amd64 TARGET_ARCH=arm64 TAG=$VERSION_TAG"16.04.4-qt5.9" sh ./build.sh
-    - docker push clickable/amd64-16.04-arm64:$VERSION_TAG"16.04.4-qt5.9"
-
-amd64-16.04.4-amd64:
-  stage: secondary-images
-  needs: ["amd64-16.04-amd64"]
-  rules:
-    - if: '$CI_COMMIT_BRANCH == "master"'
-    - if: $CI_COMMIT_TAG
-  script:
-    - cd ubuntu-sdk/16.04.4-native-build
-    - HOST_ARCH=amd64 TAG=$VERSION_TAG"16.04.4-qt5.9" sh ./build.sh
-    - docker push clickable/amd64-16.04-amd64:$VERSION_TAG"16.04.4-qt5.9"
-
-arm64-16.04.4-arm64:
-  stage: secondary-images
-  needs: ["arm64-16.04-arm64"]
-  rules:
-    - if: '$CI_COMMIT_BRANCH == "master"'
-    - if: $CI_COMMIT_TAG
-  script:
-    - cd ubuntu-sdk/16.04.4-native-build
-    - HOST_ARCH=arm64 TAG=$VERSION_TAG"16.04.4-qt5.9" sh ./build.sh
-    - docker push clickable/arm64-16.04-arm64:$VERSION_TAG"16.04.4-qt5.9"
-
-armhf-16.04.4-armhf:
-  stage: secondary-images
-  needs: ["armhf-16.04-armhf"]
-  rules:
-    - if: '$CI_COMMIT_BRANCH == "master"'
-    - if: $CI_COMMIT_TAG
-  script:
-    - cd ubuntu-sdk/16.04.4-native-build
-    - HOST_ARCH=armhf TAG=$VERSION_TAG"16.04.4-qt5.9" sh ./build.sh
-    - docker push clickable/armhf-16.04-armhf:$VERSION_TAG"16.04.4-qt5.9"
-
-
-# Qt 5.9 ci images
-
-ci-16.04.4-amd64:
-  stage: tertiary-images
-  needs: ["amd64-16.04.4-amd64"]
-  rules:
-    - if: '$CI_COMMIT_BRANCH == "master"'
-    - if: $CI_COMMIT_TAG
-  script:
-    - cd ci/16.04
-    - TARGET_ARCH=amd64 TAG=$VERSION_TAG"16.04.4-qt5.9" TARGET_TAG=$VERSION_TAG"16.04.4-qt5.9" sh ./build.sh
-    - docker push clickable/ci-16.04-amd64:$VERSION_TAG"16.04.4-qt5.9"
-
-ci-16.04.4-armhf:
-  stage: tertiary-images
-  needs: ["amd64-16.04.4-armhf"]
-  rules:
-    - if: '$CI_COMMIT_BRANCH == "master"'
-    - if: $CI_COMMIT_TAG
-  script:
-    - cd ci/16.04
-    - TARGET_ARCH=armhf TAG=$VERSION_TAG"16.04.4-qt5.9" TARGET_TAG=$VERSION_TAG"16.04.4-qt5.9" sh ./build.sh
-    - docker push clickable/ci-16.04-armhf:$VERSION_TAG"16.04.4-qt5.9"
-
-ci-16.04.4-arm64:
-  stage: tertiary-images
-  needs: ["amd64-16.04.4-arm64"]
-  rules:
-    - if: '$CI_COMMIT_BRANCH == "master"'
-    - if: $CI_COMMIT_TAG
-  script:
-    - cd ci/16.04
-    - TARGET_ARCH=arm64 TAG=$VERSION_TAG"16.04.4-qt5.9" TARGET_TAG=$VERSION_TAG"16.04.4-qt5.9" sh ./build.sh
-    - docker push clickable/ci-16.04-arm64:$VERSION_TAG"16.04.4-qt5.9"
 
 
 # Other images
