@@ -37,3 +37,22 @@ by the Free Software Foundation.
 This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranties of MERCHANTABILITY, SATISFACTORY QUALITY, or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+
+##Creating new ide templates
+
+- clone this repo and clone the [clickable](https://gitlab.com/clickable/clickable) repo
+- make sure you meet the clickable dependencies listed in the [docs](https://clickable-ut.dev/en/latest/install.html)
+- edit the [dockerfile](ubuntu-sdk/16.04-ide/Dockerfile) by adding the commands needed to install, configure and run the IDE
+- run `./build.sh` to build the dockerfile
+- change dir to your app
+- run `clickable-dev ide <ide-command>` to test
+
+*Note:*
+
+*You can specify a tag when building the container and call clickable with this tagged container by using the two commands like this:*
+```
+TAG=mytag ./build.sh
+clickable-dev --docker-image clickable/imagename:mytag
+```
+*Mind, do not add a space after the '='.*
