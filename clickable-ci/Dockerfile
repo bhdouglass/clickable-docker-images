@@ -1,4 +1,4 @@
-FROM clickable/ci-16.04-amd64
+FROM ubuntu:focal
 LABEL maintainer="Brian Douglass"
 
 RUN apt-get update && \
@@ -7,4 +7,4 @@ RUN apt-get update && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
-RUN pip3 install --upgrade nose coverage cookiecutter
+RUN pip3 install --upgrade setuptools wheel twine flake8 pylint
