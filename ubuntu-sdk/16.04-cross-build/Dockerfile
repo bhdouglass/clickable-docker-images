@@ -118,7 +118,7 @@ RUN ln -s $(which qt5-qmake-arm-linux-gnueabihf) /usr/local/bin/qmake
 
 # QBS setup
 RUN qbs setup-toolchains --system --detect && \
-    qbs setup-qt --system /usr/bin/qmake qt5 && \
+    qbs setup-qt --system /usr/local/bin/qmake qt5 && \
     qbs config --system defaultProfile qt5 && \
     qbs config --system profiles.qt5.baseProfile $TARGET_ARCH_TRIPLET-gcc-5
 
