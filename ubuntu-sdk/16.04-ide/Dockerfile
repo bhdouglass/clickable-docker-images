@@ -44,9 +44,6 @@ RUN apm install atom-clickable-plugin \
     ide-rust \
     ide-go \
     ide-json \
-    ide-html \
-    ide-css \
-    ide-yaml \
     ide-vue
 
 #install clickable in container for atom plugin to use
