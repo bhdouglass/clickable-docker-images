@@ -113,14 +113,6 @@ RUN mkdir -p opt/rust && \
 
 # Symlinks to make Rust and Go bindings find Qt includes
 RUN ln -s /usr/include/$TARGET_ARCH_TRIPLET/qt5/QtCore/ /usr/include/QtCore
-# Fix default qmake (suprisingly this works for arm64, too)
-RUN ln -s $(which qt5-qmake-arm-linux-gnueabihf) /usr/local/bin/qmake
-
-# QBS setup
-RUN qbs setup-toolchains --system --detect && \
-    qbs setup-qt --system /usr/local/bin/qmake qt5 && \
-    qbs config --system defaultProfile qt5 && \
-    qbs config --system profiles.qt5.baseProfile $TARGET_ARCH_TRIPLET-gcc-5
 
 # TODO see if there is a better location for this
 ADD qt-$TARGET_ARCH.conf /usr/bin/qt.conf
@@ -134,6 +126,12 @@ RUN echo $IMAGE_VERSION > /image_version
 
 # Fix Rust and Go qmake access
 RUN ln -sf /usr/lib/$TARGET_ARCH_TRIPLET/qt5/bin/qmake /usr/local/bin/qmake
+
+# QBS setup
+RUN qbs setup-toolchains --system --detect && \
+    qbs setup-qt --system /usr/local/bin/qmake qt5 && \
+    qbs config --system defaultProfile qt5 && \
+    qbs config --system profiles.qt5.baseProfile $TARGET_ARCH_TRIPLET-gcc-5
 
 # Generated from `dpkg-architecture -a armhf`
 ENV DEB_BUILD_ARCH=amd64 \
